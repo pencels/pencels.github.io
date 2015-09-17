@@ -1,0 +1,29 @@
+@import url(https://fonts.googleapis.com/css?family=Oxygen:400,300);
+
+* {
+    margin:0;
+    padding:0;
+    font-family:'Oxygen', sans-serif;
+}
+
+ul.nav {
+    margin: 0 auto;
+    padding:20px;
+    list-style:none;
+    background-color:#75B8B7;
+}
+
+ul.nav li {
+    display:inline-block;
+    text-decoration:none;
+}
+
+ul.nav li a {
+    color: #fff;
+    padding:20px 20px;
+    text-decoration: inherit;
+}
+
+ul.nav li a:hover {
+    background-color:#55A5A4;
+}
