@@ -9,6 +9,8 @@
 h1, h2, h3, h4, h5, h6,
 p {
     color: #8FBCBB;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 ul.nav {
@@ -27,6 +29,7 @@ ul.nav li a {
     color: #fff;
     padding:20px 20px;
     text-decoration: inherit;
+    position:relative;
 }
 
 ul.nav li a:hover {
@@ -35,4 +38,9 @@ ul.nav li a:hover {
 
 div.wrapper {
     padding:30px;
+}
+
+div.wrapper img {
+   width:100px;
+   height:auto;
 }
