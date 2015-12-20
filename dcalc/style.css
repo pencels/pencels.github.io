@@ -11,6 +11,7 @@
 }
 body {
    background: white;
+   overflow-x:hidden;
 }
 .clear {
    clear: both;
@@ -29,10 +30,10 @@ body {
    text-align: center;
 }
 .step-number {
-   margin: 10px 0;
-}
-.step-number:not(:first-child) {
    margin: 40px 0 10px 0;
+}
+.step-number:first-child {
+   margin: 10px 0;
 }
 .plans.wrapper {
    width: 800px;
@@ -112,7 +113,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .budget-advice ul {
    margin-left: 60px;
 }
-@media (max-width:800px) {
+@media screen and (max-width:800px) {
    .plans.wrapper {
       width: 600px;
    }
@@ -136,14 +137,14 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
       font-size: 1.1em;
    }
 }
-@media handheld, (max-width:620px) {
+@media screen and (max-width:620px), only screen and (max-device-width:620px){
    .container {
       padding: 80px 0;
    }
    .step-number {
       font-size: 1.5em;
-      margin-left: auto;
-      margin-right: auto;
+      margin-left: auto !important;
+      margin-right: auto !important;
       width: 80%;
    }
    .plans.wrapper {
@@ -179,7 +180,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
       font-size: 1em;
    }
 }
-@media handheld, (max-width:480px) {
+@media screen and (max-width:480px) {
    .budget-options {
       width: 80%;
    }
