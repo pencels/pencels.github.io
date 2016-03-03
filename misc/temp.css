@@ -8,6 +8,14 @@ body {
     color: #2A2D40;
 }
 
+#container {
+    width: 90%;
+    margin:0 auto;
+    border-radius: 3px;
+    webkit-border-radius: 3px;
+    moz-border-radius: 3px;
+}
+
 h1, h2, h3, h4 {
     color: #456673;
 }
@@ -43,7 +51,7 @@ a {
 }
 
 a:visited {
-    color:inherit;
+    color:#809BA6;
 }
 
 hr {
@@ -54,14 +62,6 @@ hr {
     margin: 1em 0;
     padding: 0;
     background: #456673;
-}
-
-#container {
-    width: 90%;
-    margin:0 auto;
-    border-radius: 3px;
-    webkit-border-radius: 3px;
-    moz-border-radius: 3px;
 }
 
 pre {
@@ -92,4 +92,34 @@ pre > code {
 
 *:hover > .permalink {
     display:inline-block;
+}
+
+.to-top {
+    position: fixed;
+    display:inline-block;
+    overflow: hidden;
+
+    height: 5%;
+    width: 3%;
+    bottom:1%;
+    right:1%;
+
+    font-size: 2em;
+    text-align: center;
+    text-decoration: none;
+
+    visibility: hidden;
+    background: #E0EDF0;
+    border: 1px solid #809BA6;
+    border-radius:3px;
+}
+
+.cd-top, .cd-is-visible {
+  /* the button becomes visible */
+  visibility: visible;
+  opacity: 1;
+}
+.cd-top, .cd-fade-out {
+  /* if the user keeps scrolling down, the button is out of focus and becomes less visible */
+  opacity: .5;
 }
