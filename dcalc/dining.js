@@ -1,24 +1,24 @@
 // ranges are inclusive of the first date and exclusive of the second
 // [first, second)
-var YEAR_START = new Date(2015, 8, 19); // start and end of dining plan term
-var YEAR_END = new Date(2016, 5, 12);
+const YEAR_START = new Date(2015, 8, 19); // start and end of dining plan term
+const YEAR_END = new Date(2016, 5, 12);
 
-var TH_BREAK_START = new Date(2015, 10, 26);
-var TH_BREAK_END = new Date(2015, 10, 28);
+const TH_BREAK_START = new Date(2015, 10, 26);
+const TH_BREAK_END = new Date(2015, 10, 28);
 
-var W_BREAK_START = new Date(2015, 11, 13);
-var W_BREAK_END = new Date(2016, 0, 3);
+const W_BREAK_START = new Date(2015, 11, 13);
+const W_BREAK_END = new Date(2016, 0, 3);
 
-var S_BREAK_START = new Date(2016, 2, 20);
-var S_BREAK_END = new Date(2016, 2, 27);
+const S_BREAK_START = new Date(2016, 2, 20);
+const S_BREAK_END = new Date(2016, 2, 27);
 
-var breaks = [TH_BREAK_START, TH_BREAK_END,
+const breaks = [TH_BREAK_START, TH_BREAK_END,
    W_BREAK_START, W_BREAK_END,
    S_BREAK_START, S_BREAK_END
 ];
 
-var MS_PER_DAY = 1000 * 60 * 60 * 24;
-var DINING_DAYS = nonHolidaysBetween(YEAR_START, YEAR_END);
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+const DINING_DAYS = nonHolidaysBetween(YEAR_START, YEAR_END);
 
 function budgetOf(plan, balance) {
    var today = new Date();
