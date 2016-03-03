@@ -8,6 +8,10 @@ body {
     color: #2A2D40;
 }
 
+h1, h2, h3, h4 {
+    color: #456673;
+}
+
 h1 {
     font-size: 3.8vw;
     text-align: center;
@@ -32,6 +36,14 @@ p, li {
 
 li {
     margin-bottom: 5px;
+}
+
+a {
+    color:#809BA6;
+}
+
+a:visited {
+    color:inherit;
 }
 
 hr {
@@ -70,4 +82,14 @@ pre > code {
     padding: 1px 4px;
     margin:0 2px;
     font-size: 1.8vw;
+}
+
+.permalink {
+    font-size: inherit;
+    display:none;
+    text-decoration: none;
+}
+
+*:hover > .permalink {
+    display:inline-block;
 }

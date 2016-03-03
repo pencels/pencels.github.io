@@ -12,8 +12,17 @@
             <p> Welcome! This is a guide I wrote in my spare time, and I
                 hope it will serve you well in preparing for the
                 rigorous course that is Gary’s CSE 12! </p>
+            <h3>Table of Contents:</h3>
+            <ol>
+                <li><a href="#Comparison">First, a comparison</a></li>
+                <li><a href="#Differences">Some more differences</a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+            </ol>
 
-            <h2>First, a comparison:</h2>
+            <h2 id="Comparison">First, a comparison: </h2>
+            <p> Let's use a familiar program to help get a grasp of what's
+                going on in C... </p>
 
             <h3>“Hello World” in Java</h3>
 <pre><code class="language-java">/**
@@ -45,20 +54,38 @@ int main(void) {
             <li>C looks much less verbose (Sorry, Java).</li>
         </ul>
         <p> C actually has no <code>class</code> keyword, which is a result of
-            it being an <em>action-oriented</em> language. It still has the
-            capability to create “objects,” but we’ll get into that later.
-            C programs are written mostly like the above—each method existing
-            outside in the source code on its own.</p>
+            it being an <em>action-oriented</em> language. This means that C
+            focuses less on creating objects and more on defining functions to
+            carry out actions. C programs are written mostly like the above—each
+            method existing outside in the source code on its own. Despite being
+            action-oriented, it still has the capability to create “objects,”
+            but we’ll get into that later.
+            </p>
         <p> C also includes the definition of .h (header) files, which are
             similar to Java’s interfaces: they provide a public interface
             for use of the actual .c source code. The benefit of using header
             files is that they promote data hiding and abstraction of code.</p>
         <p> The <code>int</code> return type is meant to indicate the
             <em>exit code</em> of the function. Usually, this is 0, indicating
-            success (and why we return 0 at the end of <code>main</code>).</p>
+            success (and why we return 0 at the end of <code>main</code>). The
+            C’s <code>main</code> function also doesn't include <code>static</code>
+            in its definition, since <code>static</code> has a different meaning
+            in C from what it does in Java (more on that later).</p>
         <p> Finally, we can see that C looks simpler than Java in a few ways:
             we use <code>printf</code> instead of <code>System.out.println</code>
-            and <code>int main</code> instead of <code>public static void main</code>.</p>
+            and <code>int main</code> instead of <code>public static void main</code>.
+            These simplifications come with a cost in the long run, since C more
+            intensely requires the programmer to manage memory allocation than
+            Java does.</p>
+
+        <h2 id="Differences">Some more differences: </h2>
+            <ul>
+                <li><a href="#Pointers">Pointers</a></li>
+            </ul>
+        <div id="footer">
+            <p> Updated: March 3, 2016. </p>
         </div>
+        </div>
+        <script src="javatoc_setup.js"></script>
     </body>
 </html>
