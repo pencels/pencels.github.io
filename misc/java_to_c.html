@@ -22,8 +22,6 @@
                         <li><a href="#Pointers">Pointers</a></li>
                     </ol>
                 </li>
-                <li><a href="#"></a></li>
-                <li><a href="#"></a></li>
             </ol>
 
             <h2 id="Comparison">First, a comparison: </h2>
@@ -43,7 +41,7 @@ public class Hello {
 }</code></pre>
 
             <h3>“Hello World” in C</h3>
-<pre><code class="language-java">/*
+<pre><code class="language-c">/*
  * Hello.c
  * ============
  * C doesn't look that bad either!
@@ -85,9 +83,49 @@ int main(void) {
             Java does.</p>
 
         <h2 id="Differences">Some more differences: </h2>
-            <ul>
-                <li><a href="#Pointers">Pointers</a></li>
-            </ul>
+
+        <h3 id="Pointers">Pointers</h3>
+        <p> Both C and Java use these, but C makes the programmer use them more
+            explicitly. This means if you have experience with Java, you already
+            have experience with pointers; you just didn’t know you were using
+            them until now. </p>
+        <p> Pointers really aren't that difficult to understand—they’re
+            just variables that hold the address of other variables in memory.
+            A common analogy to pointers are phone numbers: you keep
+            someone’s phone number (i.e. their memory address) so that you can
+            call them later (this is called ‘dereferencing’).</p>
+        <p> Here's an example of pointer declaration and initialization next to
+            a regular old integer declaration: </p>
+<pre><code class="language-c">/* boring int declaration. */
+int x = 42;
+
+/* int pointer declaration! */
+int * ptr;
+
+/* int pointer initialized to point to x! */
+int * xptr = &x;
+</code></pre>
+        <p> It's important to note the <code>*</code> which indicates that the
+            variable is really a <em>pointer</em> to an <code>int</code>, not
+            an <code>int</code> type itself (though on some systems the memory
+            address held <em>is</em> a 32-bit integer value). </p>
+        <p> You may also notice the <code>&</code> symbol on the third line.
+            This is called the <em>address-of</em> operator, and it does exactly
+            what its name says it does: it gets the address of the variable
+            after it. </p>
+        <p> Now the third line makes sense. The <em>int pointer</em>
+            <code>xptr</code> is being assigned the address of <code>x</code>
+            from line 1. If we continue our phone-number analogy, this is the
+            same as saving someone’s phone number to your address book. Now
+            that we have <code>x</code>’s phone number, how do we call them?
+            Here's some more code:</p>
+<pre><code class="language-c">*xptr = 0; /* x is now 0 */
+</code></pre>
+        <p> Now the <code>*</code> symbol has a different use here. Here we call
+            it the <em>dereference</em> operator. It follows the memory address
+            saved in <code>xptr</code> to where <code>x</code> lives, then assigns
+            the memory space there the value 0. In our phone analogy, this is
+            the same as calling the person whose phone number you have. </p>
         <div id="footer">
             <p> Updated: March 3, 2016. </p>
         </div>

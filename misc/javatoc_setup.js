@@ -8,7 +8,12 @@ function selall(s) {
 }
 
 function setupPermalinks() {
-    var headers = selall('h2');
+    var headers = Array.from(selall('h2'));
+    var subheaders = selall('h3');
+
+    for (var i = 0; i < subheaders.length; i++) {
+        headers.push(subheaders[i]);
+    }
 
     for (var i = 0; i < headers.length; i++) {
         if (!headers[i].id) {
