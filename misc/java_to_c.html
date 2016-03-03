@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Java to C</title>
+        <link href="../prism/prism.css" rel="stylesheet" type="text/css" />
+        <link href="temp.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <script src="../prism/prism.js"></script>
+        <div id="container">
+            <h1>Java to C: A guide for prospective CSE 12 students.</h1>
+            <p> Welcome! This is a guide I wrote in my spare time, and I
+                hope it will serve you well in preparing for the
+                rigorous course that is Gary’s CSE 12! </p>
+
+            <h2>First, a comparison:</h2>
+
+            <h3>“Hello World” in Java</h3>
+<pre><code class="language-java">/**
+ * Hello.java
+ * ============
+ * Look at this wonderful Java code (:
+ */
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}</code></pre>
+
+            <h3>“Hello World” in C</h3>
+<pre><code class="language-java">/*
+ * Hello.c
+ * ============
+ * C doesn't look that bad either!
+ */
+int main(void) {
+    printf("Hello World!\n");
+    return 0;
+}</code></pre>
+        <p> The Java implementation should look familiar, so I’ll focus on the
+            differences in the C code:</p>
+        <ul>
+            <li>There is no <code>class</code> definition.</li>
+            <li>The <code>main</code> method has an <code>int</code> return type.</li>
+            <li>C looks much less verbose (Sorry, Java).</li>
+        </ul>
+        <p> C actually has no <code>class</code> keyword, which is a result of
+            it being an <em>action-oriented</em> language. It still has the
+            capability to create “objects,” but we’ll get into that later.
+            C programs are written mostly like the above—each method existing
+            outside in the source code on its own.</p>
+        <p> C also includes the definition of .h (header) files, which are
+            similar to Java’s interfaces: they provide a public interface
+            for use of the actual .c source code. The benefit of using header
+            files is that they promote data hiding and abstraction of code.</p>
+        <p> The <code>int</code> return type is meant to indicate the
+            <em>exit code</em> of the function. Usually, this is 0, indicating
+            success (and why we return 0 at the end of <code>main</code>).</p>
+        <p> Finally, we can see that C looks simpler than Java in a few ways:
+            we use <code>printf</code> instead of <code>System.out.println</code>
+            and <code>int main</code> instead of <code>public static void main</code>.</p>
+        </div>
+    </body>
+</html>
