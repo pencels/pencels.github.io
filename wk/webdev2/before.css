@@ -1,0 +1,61 @@
+@import 'https://fonts.googleapis.com/css?family=Hammersmith+One|Paytone+One';
+
+html{
+    font-family: 'Hammersmith One', sans-serif;
+    background: linear-gradient(#CFC, #FFF);
+}
+
+#container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Paytone One', sans-serif;
+}
+
+h1 {
+    background: black;
+    color: white;
+    display: inline-block;
+    padding: 10px;
+}
+
+nav {
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    background: black;
+}
+
+nav li a {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    display: block;
+}
+
+nav li a:hover {
+    background: lightgray;
+    color: black;
+}
+
+.img {
+    border-radius: 100%;
+    width: 15em;
+    height: 15em;
+    background-clip: padding-box;
+    background-size: cover;
+    background-position: center center;
+    margin: 0 auto;
+}
+
+div#img1 {
+    background-image: url('https://d13yacurqjgara.cloudfront.net/users/285647/screenshots/1420082/loading.gif');
+}
+
+div#img2 {
+    background-image: url('http://33.media.tumblr.com/f678ce38eb896bc1d4aaa911958af087/tumblr_n2eccv6Dev1rgpzseo1_1280.gif');
+}
