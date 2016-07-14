@@ -4,6 +4,9 @@ html {
     font-family: 'Montserrat', sans-serif;
     cursor: url('res/thumbtack.png'), auto;
     height: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 html, body {
@@ -23,6 +26,11 @@ html, body {
     left: 10px;
     background: rgba(255, 255, 255, 0.5);
     padding: 10px;
+}
+
+.balloon-box {
+    position: fixed;
+    display: inline-block;
 }
 
 .balloon-box img {
