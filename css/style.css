@@ -104,7 +104,7 @@ nav {
     display: none; }
 
   #menu-items.open {
-    display: inline-block; } }
+    display: block !important; } }
 .wrapper {
   width: 80%;
   margin: 0 auto;
