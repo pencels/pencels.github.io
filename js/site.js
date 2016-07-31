@@ -1,5 +1,5 @@
 $(function() {
-    $('#menu-button').on('mouseup touchend', event => {
+    $(document).on('vclick', '#menu-button', event => {
         $('#menu-items').toggleClass('open');
     });
 });
