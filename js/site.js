@@ -1,5 +1,5 @@
 $(function() {
-    $(document).on('click tap', '#menu-button', event => {
+    $('#menu-button').on('tap', event => {
         $('#menu-items').toggleClass('open');
     });
 });
