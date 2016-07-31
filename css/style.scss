@@ -150,10 +150,15 @@ nav {
     }
     
     #menu-button {
+        background: url('/img/menu.svg');
+        background-size: $header-font-size;
+        background-repeat: no-repeat;
+        background-position: center;
         display: inline-block !important;
         position: fixed;
         cursor: pointer;
         width: $header-font-size;
+        height: $header-font-size;
         padding: 1.2rem;
         top: 0;
         right: 0;

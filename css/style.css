@@ -87,10 +87,15 @@ nav {
       padding: 1rem; }
 
   #menu-button {
+    background: url("/img/menu.svg");
+    background-size: 1.7rem;
+    background-repeat: no-repeat;
+    background-position: center;
     display: inline-block !important;
     position: fixed;
     cursor: pointer;
     width: 1.7rem;
+    height: 1.7rem;
     padding: 1.2rem;
     top: 0;
     right: 0; }
