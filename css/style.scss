@@ -1,0 +1,71 @@
+@import 'https://fonts.googleapis.com/css?family=Montserrat:700|Raleway:800';
+
+$accent-color: #75B8B7;
+$dark-accent-color: #55A5A4;
+
+html, body, ul {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Raleway';
+}
+
+p {
+    color: #8FBCBB;
+}
+
+nav ul {
+    list-style: none;
+    background-color: $accent-color;
+    font-family: 'Raleway';
+
+    li {
+        display: inline-block;
+        text-decoration: none;
+        vertical-align: middle;
+        color: #fff;
+        
+        a {
+            display: inline-block;
+
+            text-decoration: inherit;
+            color: inherit;
+            border-color: $accent-color;
+            border-style: solid;
+            border-width: 0 0px 1px 1px;
+            transition: 0.1s;
+            
+            font-size: 1.5em;
+            padding: 1em;
+            
+            &:hover {
+                color: $dark-accent-color;
+                background: white;
+            }
+        }
+        
+        &:first-child a {
+            color: #75B8B7;
+            background: #fff;
+            
+            &:hover {
+                color: $dark-accent-color;
+            }
+        }
+    }
+    
+    h1 {
+        margin: 0;
+    }
+}
+
+div.wrapper {
+    padding:30px;
+}
+
+div.wrapper img {
+   width:100px;
+   height:auto;
+}
