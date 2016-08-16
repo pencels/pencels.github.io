@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="decliner.js"></script>
+</head>
+<body onload="loadInputButtons()">
+    <div id="cont">
+        <h1>Alh&euml; Declension Machine</h1>
+        <p>Enter a noun below for its declension table.</p>
+        <input id="noun-input" size="30" type="text">
+        <button type="button" onclick="decline()">Submit</button> <br>
+        <button class="special-char" type="button" value="&cacute;">&cacute;</button>
+        <button class="special-char" type="button" value="&ccirc;">&ccirc;</button>
+        <button class="special-char" type="button" value="&euml;">&euml;</button>
+        <button class="special-char" type="button" value="&gacute;">&gacute;</button>
+        <button class="special-char" type="button" value="&gcirc;">&gcirc;</button>
+        <button class="special-char" type="button" value="&sacute;">&sacute;</button>
+        <button class="special-char" type="button" value="&scirc;">&scirc;</button>
+        <p id="results"></p>
+        <table id="decl-table" style="display:none">
+            <tr>
+                <th></th>
+                <th>Singular</th>
+                <th>Plural</th>
+            </tr>
+            <tr>
+                <th>Nominative</th>
+                <td id="nomsg"></td>
+                <td id="nompl"></td>
+            </tr>
+            <tr>
+                <th>Accusative</th>
+                <td id="accsg"></td>
+                <td id="accpl"></td>
+            </tr>
+            <tr>
+                <th>Genitive</th>
+                <td id="gensg"></td>
+                <td id="genpl"></td>
+            </tr>
+            <tr>
+                <th>Oblique</th>
+                <td id="oblsg"></td>
+                <td id="oblpl"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
