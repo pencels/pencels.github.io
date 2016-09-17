@@ -1,8 +1,8 @@
 const PLANS = [
    ['Select', 3900],
-   ['Lite', 3255],
-   ['Budget', 2690],
-   ['Lean', 2525]
+   ['Lite', 3400],
+   ['Budget', 2950],
+   ['Lean', 2635]
 ]
 
 const VIABLE_ALLOWANCE = 10.00;
