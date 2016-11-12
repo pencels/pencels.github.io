@@ -1,37 +1,58 @@
----
-layout: null
----
-
 <!DOCTYPE html>
 <html>
 <head>
-    {% include head.html %}
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" type="image/png" href="/favicon.png">
+<title>Christopher Pence</title>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="/js/jquery.mobile.custom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
     <title>Christopher Pence</title>
 </head>
 <body>
     <!--
-        Hello kind HTML Reader! What brings you here?
+        Hello there HTML Reader! What brings you here?
     -->
-    {% include header.html %}
+    <header>
+    <nav>
+        <ul>
+            <li><a href="/index.html">Christopher Pence</a></li>
+        </ul><!--
+     --><ul id="menu-items"><!--
+     --><li><a href="/res/christopher_pence_resume.pdf">Résumé</a></li><!--
+     --><li><a href="https://github.com/pencels">
+           GitHub
+        </a></li><!--
+     --></ul>
+        <button type="button" id="menu-button"></button>
+    </nav>
+</header>
+
     <div class="content wrapper">
         <h1>Hello there!</h1>
         <p>
             My name is Christopher Pence. I go to school at UC San Diego, with
-            a major in Computer Science, and a minor in Mathematics.
+            a major in Computer Science, and a (hopeful) minor in Mathematics.
             Among my interests in CS are linguistics, drawing and graphic
             design.
         </p>
         <p>
-            This summer (2016), I am working at the
+            I currently work for the CSE Department at UCSD, tutoring for
+            <a href="https://comp-org.herokuapp.com/">CSE 30 (Computer Organization and Systems Programming)</a>.
+            The job turned out to be everything I hoped it to be, and more!
+        </p>
+        <p>
+            Last summer (2016), I was working at the
             <a href="https://whizkidzcc.com/"> WhizKidz Computer Center</a> as
-            an instructor in mainly web development and game development.            
+            an instructor in mainly web development and game development.
         </p>
         <p>
             I'll hopefully have this website fleshed out sooner or later. Thank
             you, dear websurfer, for taking interest in my small place on the
             internet.
         </p>
-        
+
         <h1>Cool Things</h1>
         <p>
             These are projects I am especially proud of, whether or not they may
@@ -49,10 +70,13 @@ layout: null
             <a href="https://github.com/janus-cpu/janus-jas">jas</a>
         </h2>
         <p>
-            The assembler for the Janus Instruction Set, developed with my
-            friend @<a href="http://errs.io">errs.io</a>.
+            The assembler for the Janus Instruction Set, a custom ISA developed
+            with my friend @<a href="http://errs.io">errs.io</a>.
         </p>
     </div>
-    {% include footer.html %}
+    <script src="/js/site.js"></script>
+<footer>
+    <p>&copy;P 2016</p>
+</footer>
 </body>
 </html>
