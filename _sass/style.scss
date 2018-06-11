@@ -21,7 +21,7 @@ $mobile-body-font-size: 1.1rem;
 
 $big-screen: 850px;
 
-html, body, ul {
+html, body {
     margin: 0;
     padding: 0;
 }
@@ -39,10 +39,13 @@ h2, h3, h4, h5, h6 {
     margin-bottom: 0;
 }
 
-p {
+p, ul {
     font-family: $body-font;
     font-size: $body-font-size;
     color: $body-color;
+}
+
+p {
     line-height: 1.5rem;
 }
 
@@ -68,12 +71,14 @@ header {
     width: 100%;
 }
 
-nav { 
+nav {
     top: 0;
     width: inherit;
     background-color: $accent-color;
 
     ul {
+        margin: 0;
+        padding: 0;
         display: inline-block;
 
         list-style: none;
@@ -96,7 +101,7 @@ nav {
 
                 font-size: $header-font-size;
                 padding: 1.5rem;
-                
+
                 &:visited {
                     color: inherit;
                 }
@@ -107,7 +112,7 @@ nav {
                 }
             }
         }
-        
+
         &:first-child li a {
             color: $accent-color;
             background: #fff;
@@ -127,7 +132,7 @@ nav {
     #menu-button {
         display: none;
     }
-    
+
     #menu-items {
         display: inline-block;
     }
@@ -142,20 +147,20 @@ nav {
     nav ul li {
         display: block;
         width: 100%;
-        
+
         a {
             width: inherit;
             padding: 1rem;
         }
     }
-    
+
     #menu-button {
         display: inline-block !important;
         position: fixed;
         cursor: pointer;
         top: 0;
         right: 0;
-        
+
         border: none;
         outline: none;
 
@@ -163,12 +168,12 @@ nav {
         background-size: $header-font-size;
         background-repeat: no-repeat;
         background-position: center;
-        
+
         width: $header-font-size;
         height: $header-font-size;
         padding: 2rem;
     }
-    
+
     #menu-items {
         display: none;
     }
@@ -185,20 +190,14 @@ nav {
     margin: 0 auto;
     margin-top: 5rem;
     padding: 1rem;
-    
-    h2.project {
-        & + p {
-            margin-top: 0.5rem;
-        }
-    }
 }
 
 @media screen and (max-width: $mobile) {
     .wrapper {
         width: 90%;
         margin-top: 3rem;
-        
-        p  { font-size: $mobile-body-font-size; }
+
+        p, ul { font-size: $mobile-body-font-size; }
         h1 { font-size: $mobile-header-font-size; }
         h2 { font-size: $mobile-header-font-size - 0.2rem;}
     }
