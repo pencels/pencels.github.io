@@ -3,22 +3,23 @@
 <head>
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <script src="decliner.js"></script>
+    <link href='style.css' rel='stylesheet'>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script src="noun.js"></script>
+    <script src="util.js"></script>
 </head>
-<body onload="loadInputButtons()">
+<body>
     <div id="cont">
-        <h1>Alh&euml; Declension Machine</h1>
-        <p>Enter a noun below for its declension table.</p>
+        <h1>Alh&euml; Tools</h1>
+        <div>
+          <h2>Noun declension</h2>
+          <p>Enter a noun below for its declension table. For special characters (e.g. ć and ĉ), enter a single quote (&apos;) or a circumflex (^) before the character.</p>
+        </div>
         <input id="noun-input" size="30" type="text">
-        <button type="button" onclick="decline()">Submit</button> <br>
-        <button class="special-char" type="button" value="&cacute;">&cacute;</button>
-        <button class="special-char" type="button" value="&ccirc;">&ccirc;</button>
-        <button class="special-char" type="button" value="&euml;">&euml;</button>
-        <button class="special-char" type="button" value="&gacute;">&gacute;</button>
-        <button class="special-char" type="button" value="&gcirc;">&gcirc;</button>
-        <button class="special-char" type="button" value="&sacute;">&sacute;</button>
-        <button class="special-char" type="button" value="&scirc;">&scirc;</button>
+        <button type="button" onclick="showDeclension()">Submit</button> <br>
         <p id="results"></p>
         <table id="decl-table" style="display:none">
             <tr>

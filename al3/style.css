@@ -1,5 +1,5 @@
 body {
-    font-family: 'Noto Sans','PT Sans', sans-serif;
+    font-family: Consolas, monospace;
     color: #ABD8D8;
     background-color:#57A8A7;
 }
@@ -12,7 +12,7 @@ button {
     outline:0;
     border:0;
     border-radius: 3px;
-    padding:5px;
+    padding:7px;
     background-color:#287775;
     -webkit-transition: 0.5s;
     transition: 0.5s;

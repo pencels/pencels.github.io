@@ -1,43 +1,33 @@
-var e_um = String.fromCharCode(235);
-var n_pal = String.fromCharCode(324);
-var s_pal = String.fromCharCode(347);
-var s_alv = String.fromCharCode(349);
-var c_pal = String.fromCharCode(263);
-var c_alv = String.fromCharCode(265);
-var g_pal = String.fromCharCode(501);
-var g_alv = String.fromCharCode(285);
+function showDeclension() {
+  let input = $('#noun-input');
+  let word = input.val();
+  word = convertAl3Ascii(word);
+  input.val(word);
+  let [declined, ok] = decline(word);
+  if (ok)
+    display(declined);
+}
 
-function decline() {
-    var noun;
-    var isnoun = true;
+function decline(word) {
+  let ending = word.slice(-1);
+  let declined;
+  if (isVowel(ending)) {
+    declined = declineVowel(word);
+  } else if (isNasalLiquid(ending)) {
+    declined = declineNasalLiquid(word);
+  } else if (isFricative(ending)) {
+    declined = declineFricative(word);
+  } else if (isAffricate(ending)) {
+    declined = declineAffricate(word);
+  }
+  return [declined, isValidNoun(word)];
+}
 
-    //Get noun from input
-    noun = document.getElementById("noun-input").value;
+function isValidNoun(word) {
+  if (word.length == 0) return false;
 
-    var ending = noun.slice(-1);
-    console.log(ending.charCodeAt(0));
-
-    if (isVowel(ending)) {
-        console.log("vowel");
-        declineVowel(noun);
-    } else if (isNasalApprox(ending)) {
-        console.log("approx");
-        declineNasalApprox(noun);
-    } else if (isFricative(ending)) {
-        console.log("fricative");
-        declineFricative(noun);
-    } else if (isAffricate(ending)) {
-        console.log("affricate");
-        declineAffricate(noun);
-    } else {
-        isnoun = false;
-        alert("The given word is not a noun.");
-    }
-
-    if (isnoun)
-        document.getElementById("results").innerHTML = "Declension of <b>" +
-                                                    noun + "</b> in Alh" +
-                                                    e_um + ":";
+  let ending = word.slice(-1);
+  return 'aeëioumnrsśŝćĉ'.includes(ending);
 }
 
 function loadInputButtons() {
@@ -59,35 +49,20 @@ function resetButton(elem) {
 }
 
 function isVowel(letter) {
-    var code = letter.charCodeAt();
-    if (code == 97 || code == 101 || code == 105
-        || code == 111 || code == 117 || code == 235)
-        return true;
-    else
-        return false;
+  return 'aeëiou'.includes(letter);
 }
 
-function isNasalApprox(letter) {
-    if (letter == "m" || letter == "n" || letter == "r")
-        return true;
-    else
-        return false;
+function isNasalLiquid(letter) {
+  return 'mnr'.includes(letter);
 }
 
 function isFricative(letter) {
-    var code = letter.charCodeAt();
-    if (code == 115 || code == 349 || code == 347)
-        return true;
-    else
-        return false;
+  return 'sśŝ'.includes(letter);
 }
 
 function isAffricate(letter) {
-    var code = letter.charCodeAt();
-    if (code == 263|| code == 265 || code == 285 || code == 501)
-        return true;
-    else
-        return false;
+  // Note: yes this excludes ǵĝ but this is just for checking on nouns endings.
+  return 'ćĉ'.includes(letter);
 }
 
 //accepts an array of 8 elements for the sg and pl forms of each case
@@ -174,7 +149,7 @@ function declineVowel(n) {
     results[2] = n + "c";
 
     //acc pl
-    if (n.slice(-2) == "na" || n.charAt(n.length-2) == n_pal + "a")
+    if (n.slice(-2) == "na" || n.charAt(n.length-2) == "ńa")
         results[3] = n.slice(0,-1) + "na";
     else
         results[3] = n + "na";
@@ -192,7 +167,7 @@ function declineVowel(n) {
     //obl pl
     results[7] = n + "f";
 
-    display(results);
+    return results;
 }
 function declineNasalApprox(n) {
     var results = [];
@@ -238,7 +213,7 @@ function declineNasalApprox(n) {
     //obl pl
     results[7] = n + "fa";
 
-    display(results);
+    return results;
 }
 function declineFricative(n) {
     var results = [];
@@ -293,7 +268,7 @@ function declineFricative(n) {
     //obl pl
     results[7] = n + "of";
 
-    display(results);
+    return results;
 }
 function declineAffricate(n) {
     var results = [];
@@ -322,5 +297,5 @@ function declineAffricate(n) {
     //obl pl
     results[7] = n + "of";
 
-    display(results);
+    return results;
 }
