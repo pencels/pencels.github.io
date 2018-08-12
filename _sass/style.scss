@@ -1,221 +1,32 @@
-@import 'https://fonts.googleapis.com/css?family=Khula:400,700|Raleway:800';
-
-$header-font: 'Raleway', sans-serif;
-$body-font: 'Khula', sans-serif;
-
-$small-header-color: #4b6b7c;
-
-$accent-color: #678a9d;
-$dark-accent-color: #325d74;
-$light-accent-color: #54acdb;
-$body-color: #394145;
-
-$transition-speed: 0.2s;
-
-$header-font-size: 1.7rem;
-$body-font-size: 1.2rem;
-
-$mobile: 600px;
-$mobile-header-font-size: 1.5rem;
-$mobile-body-font-size: 1.1rem;
-
-$big-screen: 850px;
+h1, h2, h3, h4, h5, h6, p, ul, li {
+  font-family: 'IBM Plex Mono', monospace;
+}
 
 html, body {
-    margin: 0;
-    padding: 0;
+  background: rgba(1, 1, 1, 0.01);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: $header-font;
+header nav {
+  background: black;
 }
 
-h1 {
-    color: $accent-color;
+.navbar-toggler {
+  border: none;
 }
 
-h2, h3, h4, h5, h6 {
-    color: $small-header-color;
-    margin-bottom: 0;
+code {
+  color: black;
+  background: rgba(1, 1, 1, 0.05);
 }
 
-p, ul {
-    font-family: $body-font;
-    font-size: $body-font-size;
-    color: $body-color;
-}
-
-p {
-    line-height: 1.5rem;
-}
-
-a {
-    transition-property: color, background;
-    transition-duration: $transition-speed;
-    text-decoration: none;
-
-    &, &:visited {
-        color: $light-accent-color;
-    }
-
-    &:hover {
-        color: $dark-accent-color;
-    }
-}
-
-/// -------------------------------------------------------------- HEADER -- ///
-
-header {
-    position: fixed;
-    top: 0;
+@media (max-width: 576px) {
+  #logo-bar {
     width: 100%;
+  }
 }
 
-nav {
-    top: 0;
-    width: inherit;
-    background-color: $accent-color;
-
-    ul {
-        margin: 0;
-        padding: 0;
-        display: inline-block;
-
-        list-style: none;
-        font-family: 'Raleway';
-
-        li {
-            display: inline-block;
-            text-decoration: none;
-            vertical-align: middle;
-            color: #fff;
-
-            a {
-                display: inline-block;
-
-                text-decoration: inherit;
-                color: inherit;
-                border-color: $accent-color;
-                border-style: solid;
-                border-width: 0 1px 1px 0;
-
-                font-size: $header-font-size;
-                padding: 1.5rem;
-
-                &:visited {
-                    color: inherit;
-                }
-
-                &:hover {
-                    color: $dark-accent-color;
-                    background: white;
-                }
-            }
-        }
-
-        &:first-child li a {
-            color: $accent-color;
-            background: #fff;
-
-            &:hover {
-                color: $dark-accent-color;
-            }
-        }
-
-        h1 {
-            margin: 0;
-        }
-    }
-}
-
-@media screen and (min-width: $mobile + 1) {
-    #menu-button {
-        display: none;
-    }
-
-    #menu-items {
-        display: inline-block;
-    }
-}
-
-@media screen and (max-width: $mobile) {
-    nav ul {
-        display: block;
-        width: 100%;
-    }
-
-    nav ul li {
-        display: block;
-        width: 100%;
-
-        a {
-            width: inherit;
-            padding: 1rem;
-        }
-    }
-
-    #menu-button {
-        display: inline-block !important;
-        position: fixed;
-        cursor: pointer;
-        top: 0;
-        right: 0;
-
-        border: none;
-        outline: none;
-
-        background: url('/img/menu.svg');
-        background-size: $header-font-size;
-        background-repeat: no-repeat;
-        background-position: center;
-
-        width: $header-font-size;
-        height: $header-font-size;
-        padding: 2rem;
-    }
-
-    #menu-items {
-        display: none;
-    }
-
-    #menu-items.open {
-        display: block !important;
-    }
-}
-
-/// ------------------------------------------------------------- CONTENT -- ///
-
-.wrapper {
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 5rem;
-    padding: 1rem;
-}
-
-@media screen and (max-width: $mobile) {
-    .wrapper {
-        width: 90%;
-        margin-top: 3rem;
-
-        p, ul { font-size: $mobile-body-font-size; }
-        h1 { font-size: $mobile-header-font-size; }
-        h2 { font-size: $mobile-header-font-size - 0.2rem;}
-    }
-}
-
-@media screen and (min-width: $big-screen) {
-    .wrapper {
-        width: 800px;
-    }
-}
-
-/// -------------------------------------------------------------- FOOTER -- ///
-footer {
-    text-align: center;
-    border-top: 1px solid $accent-color;
-    padding: 1rem;
-}
-
-#footer-img {
-    width: 10rem;
+@media (min-width: 576px) {
+  #logo-bar {
+    width: auto;
+  }
 }

@@ -1,14 +1,21 @@
 <header>
-    <nav>
-        <ul>
-            <li><a href="/index.html">Christopher Pence</a></li>
-        </ul><!--
-     --><ul id="menu-items"><!--
-     --><li><a href="/res/christopher_pence_resume.pdf">Résumé</a></li><!--
-     --><li><a href="https://github.com/pencels">
-           GitHub
-        </a></li><!--
-     --></ul>
-        <button type="button" id="menu-button"></button>
-    </nav>
+<nav class="navbar navbar-expand-sm navbar-dark">
+  <div class="container">
+  <div class="d-flex justify-content-between" id="logo-bar">
+    <a class="navbar-brand" href="/"><img src="favicon.png" class="border border-light"></a>
+    <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      {% for navItem in site.nav %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ navItem.href }}">{{ navItem.txt }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  </div>
+</nav>
 </header>

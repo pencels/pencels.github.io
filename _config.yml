@@ -18,9 +18,15 @@ email: cpence@ucsd.edu
 description: > # this means to ignore newlines until "baseurl:"
   Take a look friends!
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://pencels.github.io" # the base hostname & protocol for your site
+url: "https://pencels.github.io" # the base hostname & protocol for your site
 twitter_username: jekyllrb
 github_username:  jekyll
+
+nav:
+  - txt: Résumé
+    href: /res/christopher_pence_resume.pdf
+  - txt: GitHub
+    href: https://github.com/pencels
 
 # Build settings
 markdown: kramdown
