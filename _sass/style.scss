@@ -1,4 +1,4 @@
-h1, h2, h3, h4, h5, h6, p, ul, li {
+h1, h2, h3, h4, h5, h6, p, ul, li, a {
   font-family: 'IBM Plex Mono', monospace;
 }
 
@@ -17,6 +17,13 @@ header nav {
 code {
   color: black;
   background: rgba(1, 1, 1, 0.05);
+}
+
+#logo-bar a {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 @media (max-width: 576px) {

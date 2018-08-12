@@ -11,7 +11,7 @@ During the academic year, I work for the [CSE Department](https://cse.ucsd.edu/)
 + `CSE 30`: Intro to low-level architecture with C and ARM assembly
 + `CSE 130`: Intro to PL theory with some functional programming (OCaml/Prolog)
 
-The last few summers (2016, 2017), I worked at the [WhizKidz Computer Center](https://whizkidzcc.com/) as an instructor in web development, game development, and introductory courses to programming languages like Python. I will be working here again this summer.
+For the last few summers (2016-2018), I worked at the [WhizKidz Computer Center](https://whizkidzcc.com/) as an instructor in web development, game development, and introductory courses to programming languages like Python and Java.
 
 # Cool Things
 These are projects I am especially proud of, whether or not they may be finished.
