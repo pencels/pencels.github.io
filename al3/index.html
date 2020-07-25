@@ -16,10 +16,12 @@
         <h1>Alh&euml; Tools</h1>
         <div>
           <h2>Noun declension</h2>
-          <p>Enter a noun below for its declension table. For special characters (e.g. ć and ĉ), enter a single quote (&apos;) or a circumflex (^) before the character.</p>
+          <p>Enter a noun below for its declension table. For special characters (e.g. ć and ĉ), enter a single quote (&apos;) or a circumflex (^) before the character. For ë, enter a double quote (") before the 'e'.</p>
         </div>
-        <input id="noun-input" size="30" type="text">
-        <button type="button" onclick="showDeclension()">Submit</button> <br>
+        <form id="noun-form">
+            <input id="noun-input" size="30" type="text">
+            <button type="submit" onclick="showDeclension()">Submit</button> <br>
+        </form>
         <p id="results"></p>
         <table id="decl-table" style="display:none">
             <tr>

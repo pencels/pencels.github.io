@@ -1,11 +1,18 @@
+$(() => {
+    $('#noun-form').on('submit', e => e.preventDefault());
+});
+
 function showDeclension() {
   let input = $('#noun-input');
   let word = input.val();
   word = convertAl3Ascii(word);
   input.val(word);
   let [declined, ok] = decline(word);
-  if (ok)
+  if (ok) {
     display(declined);
+  } else {
+    alert(`"${word}" is not a valid noun.`);
+  }
 }
 
 function decline(word) {
@@ -79,17 +86,14 @@ function display(array) {
 }
 
 function vowelChg(vowel, type) {
-    if (vowel.charCodeAt() == 235)
-        vowel = "e:";
-
     if (type == "NOM V") {
         switch (vowel) {
             case "a":
                 return "e";
             case "e":
                 return "er";
-            case "e:":
-                return e_um + "a";
+            case "ë":
+                return "ëa";
             case "i":
                 return "ei";
             case "o":
@@ -105,7 +109,7 @@ function vowelChg(vowel, type) {
                 return "e";
             case "e":
                 return "e";
-            case "e:":
+            case "ë":
                 return "a";
             case "i":
                 return "e";
@@ -122,8 +126,8 @@ function vowelChg(vowel, type) {
                 return "ai";
             case "e":
                 return "i";
-            case "e:":
-                return e_um + "a";
+            case "ë":
+                return "ëa";
             case "i":
                 return "ei";
             case "o":
@@ -169,7 +173,7 @@ function declineVowel(n) {
 
     return results;
 }
-function declineNasalApprox(n) {
+function declineNasalLiquid(n) {
     var results = [];
     var end = n.slice(-1);
     //nom sg
@@ -233,20 +237,20 @@ function declineFricative(n) {
     //gen sg
     var syllonset = n.charAt(n.length-3);
     var combo = "";
-    if (end == s_pal) {
+    if (end == "ś") {
         if (syllonset == "t")
-            combo = c_pal;
+            combo = "ć";
         else if (syllonset == "d")
-            combo = g_pal;
+            combo = "ǵ";
         else if (isVowel(syllonset) || isFricative(syllonset) || isAffricate(syllonset))
             combo = syllonset + end;
         else
             combo = syllonset + n.charAt(n.length-2)+ end;
-    } else if (end == s_alv) {
+    } else if (end == "ŝ") {
         if (syllonset == "t")
-            combo = c_alv;
+            combo = "ĉ";
         else if (syllonset == "d")
-            combo = g_alv;
+            combo = "ĝ";
         else if (isVowel(syllonset) || isFricative(syllonset) || isAffricate(syllonset))
             combo = syllonset + end;
         else
