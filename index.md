@@ -22,14 +22,5 @@ During the summers (2016-2018), I worked at the [WhizKidz Computer Center](https
 ### [slang](https://github.com/pencels/slang)
 Slang is a neat little programming language that is strongly influenced by FP-style languages, namely Lisp and Scala. It's interpreted, _very_ dynamically typed, but pretty simple overall. The core part of slang is the "matchbox", a hybrid of a switch statement and a function. Almost everything in slang is defined with matchboxes 🙂 so watch out!
 
-### [EventLIT](https://github.com/LIT-Chorus/EventLIT)
-Android app made for the CSE 110 software engineering course at UCSD. Provides a platform for UCSD student organizations to post events for students to find and RSVP to. I worked mainly on the back end, managing user authentication and database storage/access.
-
 ### [jas](https://github.com/janus-cpu/janus-jas)
 The assembler for the Janus Instruction Set, a custom ISA for a virtual machine developed with my friend [compiler-errors](https://github.com/compiler-errors/).
-
-### [proofbuilder](https://github.com/chewisinho/proof-builder)
-A "workbench" that facilitates writing proofs for proof-based classes. Won first place in the Education category at Hacktech '16.
-
-### [Roboto or Notto](https://github.com/pencels/roboto-or-notto)
-Chatbot implemented at Hacktech '17 which takes user input and tries to learn to speak in a more "human" way. Written using a Wolfram back end and a React front end.
