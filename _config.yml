@@ -14,17 +14,14 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Christopher Pence
-email: cpence@ucsd.edu
+email: chris@pencels.net
 description: > # this means to ignore newlines until "baseurl:"
   Take a look friends!
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://pencels.github.io" # the base hostname & protocol for your site
-twitter_username: jekyllrb
-github_username:  jekyll
-
 nav:
   - txt: Résumé
-    href: /res/chris_pence_resume.pdf
+    href: resume
   - txt: GitHub
     href: https://github.com/pencels
 

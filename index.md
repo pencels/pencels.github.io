@@ -1,10 +1,10 @@
 ---
-title: Christopher Pence
+title: Chris Pence
 layout: default
 ---
 
 # Hello there!
-My name is Christopher Pence. Welcome to my personal site about me. I'm your average programmer who's super interested in programming language theory and compilers. I also like to game ([SSBU](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate) anyone?) and draw on the side.
+My name is Chris Pence. Welcome to my personal site about me. I'm your average programmer who's super interested in programming language theory and compilers. I also like to game ([DBD](https://en.wikipedia.org/wiki/Dead_by_Daylight) or [SSBU](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate) anyone?) and draw on the side.
 
 ## What I'm doing now
 I'm currently a software engineer at Microsoft, developing services with cool tech like [Azure Digital Twins](https://docs.microsoft.com/en-us/azure/digital-twins/overview) and [Azure Maps](https://docs.microsoft.com/en-us/azure/azure-maps/about-azure-maps).
