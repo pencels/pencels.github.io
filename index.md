@@ -4,7 +4,7 @@ layout: default
 ---
 
 # Hello there!
-My name is Chris Pence. Welcome to my personal site about me. I'm your average programmer who's super interested in programming language theory and compilers. I also like to game ([DBD](https://en.wikipedia.org/wiki/Dead_by_Daylight) or [SSBU](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate) anyone?) and draw on the side.
+My name is Chris. Welcome to my personal site about me. I'm your average programmer who's super interested in programming language theory and compilers. I also like to game ([DBD](https://en.wikipedia.org/wiki/Dead_by_Daylight) or [SSBU](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate) anyone?) and draw on the side.
 
 ## What I'm doing now
 I'm currently a software engineer at Microsoft, developing services with cool tech like [Azure Digital Twins](https://docs.microsoft.com/en-us/azure/digital-twins/overview) and [Azure Maps](https://docs.microsoft.com/en-us/azure/azure-maps/about-azure-maps).
@@ -19,8 +19,8 @@ During the summers (2016-2018), I worked at the [WhizKidz Computer Center](https
 
 ## Projects
 
-### [slang](https://github.com/pencels/slang)
+### [slang](https://github.com/pencels/rslang)
 Slang is a neat little programming language that is strongly influenced by FP-style languages, namely Lisp and Scala. It's interpreted, _very_ dynamically typed, but pretty simple overall. The core part of slang is the "matchbox", a hybrid of a switch statement and a function. Almost everything in slang is defined with matchboxes 🙂 so watch out!
 
 ### [jas](https://github.com/janus-cpu/janus-jas)
-The assembler for the Janus Instruction Set, a custom ISA for a virtual machine developed with my friend [compiler-errors](https://github.com/compiler-errors/).
+The assembler for the Janus Instruction Set (JAS), a custom ISA for a virtual machine developed with my friend [compiler-errors](https://github.com/compiler-errors/).
