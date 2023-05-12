@@ -1,4 +1,8 @@
 let loadedImages = [];
+const ACCEPTED_FILE_TYPES = [
+  'image/gif',
+  'image/png',
+]
 
 function dropHandler(ev) {
   console.log("File(s) dropped");
@@ -24,8 +28,25 @@ function dropHandler(ev) {
       console.log(`… file[${i}].name = ${file.name}`);
     });
   }
+  const images = [];
+  const otherFiles = [];
+  for (const file of files) {
+    if (ACCEPTED_FILE_TYPES.includes(file.type)) {
+      images.push(file);
+    } else {
+      otherFiles.push(file);
+    }
+  }
 
-  loadImages(files);
+  if (images.length > 0) {
+    loadImages(images);
+  }
+
+  if (otherFiles.length > 0) {
+    document.querySelector("#message").innerHTML = 'The following files were ignored as they are not of the right type (png, gif):\n' + otherFiles.map(f => `- ${f.name}`).join('\n');
+  } else {
+    document.querySelector("#message").innerHTML = '';
+  }
 }
 
 async function modLastByte(file) {
@@ -36,6 +57,7 @@ async function modLastByte(file) {
 }
 
 async function loadImages(imgs) {
+  console.log(imgs);
   loadedImages = imgs;
   const preview = document.querySelector("#preview");
   const newPreview = document.createElement('div');

@@ -2,17 +2,17 @@
   border: 5px dashed white;
   width: 200px;
   height: 100px;
-  color: white;
   padding: 10px;
 }
 
 #preview > img {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
-html, body {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: black;
+html, body, pre {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: black;
+  color: white;
 }
 
 body > * {
