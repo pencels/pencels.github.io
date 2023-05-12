@@ -56,20 +56,28 @@ function showDownloadButton() {
 }
 
 async function download() {
-  console.log(loadedImages);
   var zip = new JSZip();
 
-  for (const img of loadedImages) {
-    const modImg = await modLastByte(img);
-    zip.file(img.name, modImg, { binary: true });
+  let name, file;
+
+  if (loadedImages.length == 1) {
+    name = loadedImages[0].name;
+    file = loadedImages[0];
+  } else {
+    for (const img of loadedImages) {
+      const modImg = await modLastByte(img);
+      zip.file(img.name, modImg, { binary: true });
+    }
+
+    name = 'images.zip';
+    file = await zip.generateAsync({ type: "blob" });
   }
 
-  const zipped = await zip.generateAsync({ type: "blob" });
-  const url = URL.createObjectURL(zipped);
+  const url = URL.createObjectURL(file);
 
   const anchor = document.createElement('a');
   anchor.href = url;
-  anchor.download = 'images.zip';
+  anchor.download = name;
 
   document.body.appendChild(anchor);
   anchor.click();
