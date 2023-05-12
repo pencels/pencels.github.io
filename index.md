@@ -6,10 +6,11 @@ layout: default
 # Hello there!
 My name is Chris. Welcome to my personal site about me. I'm your average programmer who's super interested in programming language theory and compilers. I also like to game ([DBD](https://en.wikipedia.org/wiki/Dead_by_Daylight) or [SSBU](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate) anyone?) and draw on the side.
 
-## What I'm doing now
-I'm currently a software engineer at Microsoft, developing services with cool tech like [Azure Digital Twins](https://docs.microsoft.com/en-us/azure/digital-twins/overview) and [Azure Maps](https://docs.microsoft.com/en-us/azure/azure-maps/about-azure-maps).
-
 ## What I've done
+
+From 2019-2022, I worked as a software engineer at Microsoft, developing services with cool tech like [Azure Digital Twins](https://docs.microsoft.com/en-us/azure/digital-twins/overview) and [Azure Maps](https://docs.microsoft.com/en-us/azure/azure-maps/about-azure-maps).
+
+
 I majored in Computer Science at UC San Diego from 2015-2019. During the academic year, I worked for the [CSE Department](https://cse.ucsd.edu/) as a tutor. I have tutored for:
 + `CSE 11`: Intro course taught in Java with a focus on OOP
 + `CSE 30`: Intro to low-level architecture with C and ARM assembly
