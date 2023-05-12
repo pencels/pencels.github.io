@@ -65,16 +65,17 @@ async function loadImages(imgs) {
 
   for (const img of imgs) {
     const imgElem = document.createElement("img");
+    imgElem.setAttribute('draggable', false);
     imgElem.src = URL.createObjectURL(img);
     newPreview.appendChild(imgElem);
   }
 
-  showDownloadButton();
+  showPreview();
   preview.replaceWith(newPreview);
 }
 
-function showDownloadButton() {
-  document.querySelector("button#download").className = '';
+function showPreview() {
+  document.querySelector("#preview-section").className = '';
 }
 
 async function download() {

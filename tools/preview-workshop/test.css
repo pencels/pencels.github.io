@@ -1,12 +1,35 @@
-#drop_zone {
-  border: 5px dashed white;
-  width: 200px;
-  height: 100px;
+* {
+  box-sizing: border-box;
+}
+
+#container {
   padding: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+#drop-zone {
+  border: 2px dashed white;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  padding-left: 25px;
 }
 
 #preview > img {
   margin-left: 5px;
+}
+
+#preview > img:first-child {
+  margin-left: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 html, body, pre {
@@ -15,8 +38,8 @@ html, body, pre {
   color: white;
 }
 
-body > * {
-  margin-bottom: 5px;
+button {
+  font-family:'Courier New', Courier, monospace;
 }
 
 .hidden {

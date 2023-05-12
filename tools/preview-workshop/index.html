@@ -11,12 +11,18 @@
 </head>
 
 <body>
-    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-        <p>Drag one or more files to this <i>drop zone</i>.</p>
+    <div id="container">
+        <div id="drop-zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+            <p>Drag one or more files to preview.</p>
+            <pre id="message"></pre>
+            <div id="preview-section" class="hidden">
+                <button id="download" onclick="download();">Download Modded Images</button>
+                (with last byte replaced by 0x21)
+                <p>Preview:</p>
+                <div id="preview"></div>
+            </div>
+        </div>
     </div>
-    <pre id="message"></pre>
-    <button id="download" class="hidden" onclick="download();">Download Modded Images</button>
-    <div id="preview"></div>
     <script src="./jszip.min.js"></script>
     <script src="./test.js"></script>
 </body>
