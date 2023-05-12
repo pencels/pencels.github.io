@@ -14,3 +14,11 @@ html, body {
     font-family: 'Courier New', Courier, monospace;
     background-color: black;
 }
+
+body > * {
+  margin-bottom: 5px;
+}
+
+.hidden {
+  display: none;
+}

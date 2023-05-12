@@ -1,3 +1,5 @@
+let loadedImages = [];
+
 function dropHandler(ev) {
   console.log("File(s) dropped");
 
@@ -23,23 +25,57 @@ function dropHandler(ev) {
     });
   }
 
-  console.log(files);
-
   loadImages(files);
 }
 
-function loadImages(imgs) {
-    const preview = document.querySelector("#preview");
-    const newPreview = document.createElement('div');
-    newPreview.id = "preview";
+async function modLastByte(file) {
+  const buf = await file.arrayBuffer();
+  const arr = new Uint8Array(buf);
+  arr[arr.byteLength - 1] = 0x21;
+  return arr;
+}
 
-    for (const img of imgs) {
-        const imgElem = document.createElement("img");
-        imgElem.src = URL.createObjectURL(img);
-        newPreview.appendChild(imgElem);
-    }
+async function loadImages(imgs) {
+  loadedImages = imgs;
+  const preview = document.querySelector("#preview");
+  const newPreview = document.createElement('div');
+  newPreview.id = "preview";
 
-    preview.replaceWith(newPreview);
+  for (const img of imgs) {
+    const imgElem = document.createElement("img");
+    imgElem.src = URL.createObjectURL(img);
+    newPreview.appendChild(imgElem);
+  }
+
+  showDownloadButton();
+  preview.replaceWith(newPreview);
+}
+
+function showDownloadButton() {
+  document.querySelector("button#download").className = '';
+}
+
+async function download() {
+  console.log(loadedImages);
+  var zip = new JSZip();
+
+  for (const img of loadedImages) {
+    const modImg = await modLastByte(img);
+    zip.file(img.name, modImg, { binary: true });
+  }
+
+  const zipped = await zip.generateAsync({ type: "blob" });
+  const url = URL.createObjectURL(zipped);
+
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = 'images.zip';
+
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+
+  URL.revokeObjectURL(url);
 }
 
 function dragOverHandler(ev) {
