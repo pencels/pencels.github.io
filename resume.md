@@ -1,6 +1,6 @@
 ---
-title: Résumé
+title: Resume
 layout: default
 ---
 
-Please reach out for a résumé: _chris \[at\] pencels.net_
+Please reach out for a resume: _chris \[at\] pencels.net_

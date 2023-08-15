@@ -20,10 +20,24 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://pencels.github.io" # the base hostname & protocol for your site
 nav:
-  - txt: Résumé
-    href: resume
+  - txt: Resume
+    href: /resume
   - txt: GitHub
     href: https://github.com/pencels
+  - txt: Posts
+    href: /posts
+collections:
+  posts:
+    permalink: /:collection/:year/:month/:day/:slug
+plugins:
+  - jekyll-archives
+jekyll-archives:
+  enabled:
+    - tags
+  layouts:
+    tag: tag-archive
+  permalinks:
+    tag: "/posts/tagged/:name/"
 
 # Build settings
 markdown: kramdown

@@ -1,0 +1,12 @@
+div[class^="language-"] {
+  margin-bottom: 1.5rem;
+
+  pre.highlight {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+.highlight .nf {
+  font-style: italic;
+}

@@ -1,0 +1,22 @@
+---
+layout: default
+---
+
+<h1>{{ page.title }}</h1>
+
+<div class="byline mb-4">
+  <address class="author">by Chris Pence</address>
+  &ndash;
+  <time pubdate datetime="{{ page.date | date: '%Y-%m-%d' }}">
+    {{ page.date | date: "%B %e, %Y" }}
+  </time>
+</div>
+
+{% include anchor_headings.html html=content anchorBody="#" anchorClass="anchor-heading" %}
+
+<div class="tags">
+  Tags:
+  {% for tag in page.tags %}
+    <a href="/posts/tagged/{{ tag }}">#{{ tag }}</a>
+  {% endfor %}
+</div>

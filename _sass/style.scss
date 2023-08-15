@@ -1,13 +1,70 @@
-h1, h2, h3, h4, h5, h6, p, ul, li, a {
-  font-family: 'Nunito', sans-serif;
+body {
+  font-family: "Nunito", sans-serif;
 }
 
-code, pre, kbd {
-  font-family: 'IBM Plex Mono', monospace;
+p,
+li {
+  font-size: 1.2rem;
 }
 
-html, body {
+p:has(img),
+figure:has(img) {
+  text-align: center;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.byline {
+  color: rgb(99, 99, 99);
+
+  > * {
+    display: inline;
+  }
+
+  address {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.tags {
+  span {
+    color: rgb(99, 99, 99);
+  }
+}
+
+span.redacted {
+  background: rgb(27, 27, 27);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: transparent;
+
+  &:hover {
+    color: rgb(226, 226, 226);
+  }
+}
+
+code,
+pre,
+kbd {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.2rem;
+}
+
+blockquote {
+  border-left: 0.5rem solid rgba(0, 0, 0, 0.05);
+  padding-left: 1rem;
+  font-style: italic;
+  color: rgb(99, 99, 99);
+}
+
+html,
+body {
   background: rgba(1, 1, 1, 0.01);
+  height: 100%;
+  min-height: 100%;
 }
 
 header nav {
@@ -22,16 +79,31 @@ header nav {
   border: none;
 }
 
-code {
+footer {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgb(99, 99, 99);
+}
+
+code.language-plaintext {
   color: black;
   background: rgba(1, 1, 1, 0.05);
 }
 
+pre:has(code.language-mermaid) {
+  display: flex;
+}
+
+code.language-mermaid {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #logo-bar a {
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media (max-width: 576px) {
