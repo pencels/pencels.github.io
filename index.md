@@ -3,6 +3,8 @@ title: Chris Pence
 layout: default
 ---
 
+<base target="_blank">
+
 # Hello there!
 
 My name is Chris. Welcome to my personal site about me. I'm your average programmer who's super interested in programming language theory and compilers. I also like to game ([DBD](https://en.wikipedia.org/wiki/Dead_by_Daylight) or [SSBU](https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate) anyone?) and draw on the side. I do a bit of [streaming](https://www.twitch.tv/pencels) as well.

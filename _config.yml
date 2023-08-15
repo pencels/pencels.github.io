@@ -24,6 +24,7 @@ nav:
     href: /resume
   - txt: GitHub
     href: https://github.com/pencels
+    external: true
   # - txt: Posts
   #   href: /posts
 collections:

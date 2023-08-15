@@ -11,7 +11,14 @@
     <ul class="navbar-nav">
       {% for navItem in site.nav %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ navItem.href }}">{{ navItem.txt }}</a>
+          {% capture target %} 
+            {% if navItem.external %}
+              _blank
+            {% else %}
+              _self
+            {% endif %}
+          {% endcapture %}
+          <a class="nav-link" href="{{ navItem.href }}" target="{{ target | strip }}">{{ navItem.txt }}</a>
         </li>
       {% endfor %}
     </ul>
