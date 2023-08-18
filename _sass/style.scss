@@ -17,7 +17,7 @@ figure:has(img) {
 }
 
 .byline {
-  color: rgb(99, 99, 99);
+  color: hsla(0, 0, 100, 0.5);
 
   > * {
     display: inline;
@@ -26,12 +26,6 @@ figure:has(img) {
   address {
     padding: 0;
     margin: 0;
-  }
-}
-
-.tags {
-  span {
-    color: rgb(99, 99, 99);
   }
 }
 
@@ -54,17 +48,26 @@ kbd {
 }
 
 blockquote {
-  border-left: 0.5rem solid rgba(0, 0, 0, 0.05);
+  border-left: 0.5rem solid hsla(0, 0, 100, 0.2);
   padding-left: 1rem;
   font-style: italic;
-  color: rgb(99, 99, 99);
+  color: hsla(0, 0, 100, 0.9);
 }
 
 html,
 body {
-  background: rgba(1, 1, 1, 0.01);
+  background-color: hsl(162, 10%, 7%);
+  color: hsl(162, 10%, 85%);
   height: 100%;
   min-height: 100%;
+}
+
+a {
+  color: hsl(162, 100%, 37%);
+
+  &:hover {
+    color: hsl(162, 100%, 40%);
+  }
 }
 
 header nav {
@@ -81,13 +84,12 @@ header nav {
 
 footer {
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.05);
-  color: rgb(99, 99, 99);
+  background-color: black;
+  color: hsl(162, 10%, 85%);
 }
 
 code.language-plaintext {
-  color: black;
-  background: rgba(1, 1, 1, 0.05);
+  color: inherit;
 }
 
 pre:has(code.language-mermaid) {
