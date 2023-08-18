@@ -7,13 +7,16 @@ li {
   font-size: 1.2rem;
 }
 
-p:has(img),
-figure:has(img) {
+:is(p, figure):has(img:not(.emoji)) {
   text-align: center;
 
   img {
     max-width: 100%;
   }
+}
+
+.emoji {
+  height: 1.5rem;
 }
 
 .byline {
@@ -30,13 +33,22 @@ figure:has(img) {
 }
 
 span.redacted {
-  background: rgb(27, 27, 27);
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  background-color: hsl(162, 10%, 85%);
+  padding-left: 0.1rem;
+  padding-right: 0.1rem;
   color: transparent;
 
+  > * {
+    visibility: hidden;
+  }
+
   &:hover {
-    color: rgb(226, 226, 226);
+    background-color: transparent;
+    color: unset;
+
+    > * {
+      visibility: visible;
+    }
   }
 }
 
@@ -90,6 +102,11 @@ footer {
 
 code.language-plaintext {
   color: inherit;
+  background-color: hsl(162, 10%, 15%);
+  padding: 0.1rem 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid hsl(162, 5%, 25%);
+  font-size: large;
 }
 
 pre:has(code.language-mermaid) {
