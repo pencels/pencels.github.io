@@ -1,0 +1,26 @@
+input[type="range"].slider::-moz-range-progress,
+input[type="range"].slider::-moz-range-thumb {
+  background: theme(colors.lime.700);
+}
+
+:is(.dark) input[type="range"].slider::-moz-range-progress,
+:is(.dark) input[type="range"].slider::-moz-range-thumb {
+  background: theme(colors.lime.100);
+}
+
+#dark-theme-toggle {
+  @apply text-lime-900 hover:bg-lime-200 focus:outline-none focus:ring-4 focus:ring-lime-200 dark:text-lime-100 dark:hover:bg-lime-700 dark:focus:ring-lime-700;
+}
+
+.copy-text {
+  opacity: 0;
+}
+
+:hover > .copy-text {
+  opacity: 1;
+}
+
+.real-names {
+  writing-mode: vertical-lr;
+  text-orientation: sideways;
+}
