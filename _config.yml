@@ -25,8 +25,8 @@ nav:
   - txt: GitHub
     href: https://github.com/pencels
     external: true
-  # - txt: Posts
-  #   href: /posts
+  - txt: Posts
+    href: /posts
 collections:
   posts:
     permalink: /:collection/:year/:month/:day/:slug

@@ -1,32 +1,22 @@
+html,
 body {
   font-family: "Nunito", sans-serif;
   background-color: hsl(162, 10%, 7%);
-  color: hsl(162, 10%, 85%);
+  color: hsl(162, 0%, 85%);
   height: 100%;
   min-height: 100%;
 }
 
 p,
 li {
-  font-size: 1.2rem;
-}
-
-:is(p, figure):has(img:not(.emoji)) {
-  text-align: center;
-
-  img {
-    max-width: 100%;
-  }
-}
-
-.emoji {
-  height: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .byline {
   color: hsla(0, 0%, 100%, 0.5);
 
-  > * {
+  address,
+  time {
     display: inline;
   }
 
@@ -73,8 +63,13 @@ span.redacted {
 code,
 pre,
 kbd {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 1.2rem;
+  font-family: "Fira Code", monospace;
+  font-size: 0.9rem;
+}
+
+div[class^="language-"] pre.highlight {
+  border-radius: 0.25rem;
+  border: 1px solid hsl(162, 5%, 25%);
 }
 
 blockquote {
@@ -116,11 +111,11 @@ code.language-plaintext {
   padding: 0.1rem 0.25rem;
   border-radius: 0.25rem;
   border: 1px solid hsl(162, 5%, 25%);
-  font-size: large;
 }
 
 pre:has(code.language-mermaid) {
   display: flex;
+  color: white;
 }
 
 code.language-mermaid {
