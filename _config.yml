@@ -32,6 +32,7 @@ collections:
     permalink: /:collection/:year/:month/:day/:slug
 plugins:
   - jekyll-archives
+  - jekyll-redirect-from
 jekyll-archives:
   enabled:
     - tags

@@ -2,6 +2,7 @@
 title: "Graph Algorithms: Detecting Cycles"
 layout: post
 tags: ["graphs", "algorithms", "interview"]
+redirect_from: /posts/2022/08/30/graph-algorithms-detecting-cycles
 ---
 
 ## Why I'm Writing This
