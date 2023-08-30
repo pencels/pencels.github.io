@@ -10,7 +10,7 @@ ruby RUBY_VERSION
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
 gem "jekyll"
-gem 'rouge'
+gem 'rouge', git: 'https://github.com/pencels/rouge', branch: 'python-call-hl'
 gem 'html-pipeline'
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
