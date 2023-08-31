@@ -1,28 +1,28 @@
 <header>
-<nav class="navbar navbar-expand-sm navbar-dark">
-  <div class="container">
-  <div class="d-flex justify-content-between" id="logo-bar">
-    <a class="navbar-brand" href="/"><img src="/favicon.png" class="border border-light mr-3"><span>Chris Pence</span></a>
-    <button class="navbar-toggler px-0" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </div>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      {% for navItem in site.nav %}
-        <li class="nav-item">
-          {% capture target %} 
+  <nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img src="/favicon.png" class="border border-light me-3"><span>Chris
+          Pence</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {% for navItem in site.nav %}
+          <li class="nav-item">
+            {% capture target %}
             {% if navItem.external %}
-              _blank
+            _blank
             {% else %}
-              _self
+            _self
             {% endif %}
-          {% endcapture %}
-          <a class="nav-link" href="{{ navItem.href }}" target="{{ target | strip }}">{{ navItem.txt }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-  </div>
-</nav>
+            {% endcapture %}
+            <a class="nav-link" href="{{ navItem.href }}" target="{{ target | strip }}">{{ navItem.txt }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </nav>
 </header>

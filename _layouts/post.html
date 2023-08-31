@@ -5,18 +5,18 @@ comments: true
 
 {% if page.next or page.previous %}
 <div class="d-flex mb-3 py-1 w-100 align-items-end adjacent-pages">
-  {% if page.next %}
   <div class="d-flex w-50 align-items-end">
-    <span class="mr-1">«</span>
+    {% if page.next %}
+    <span class="me-1">«</span>
     <a href="{{ page.next.url }}">{{ page.next.title }}</a>
+    {% endif %}
   </div>
-  {% endif %}
-  {% if page.previous %}
   <div class="d-flex ml-auto text-right w-50 justify-content-end align-items-end">
+    {% if page.previous %}
     <a href="{{ page.previous.url }}">{{ page.previous.title }}</a>
-    <span class="ml-1">»</span>
+    <span class="ms-1">»</span>
+    {% endif %}
   </div>
-  {% endif %}
 </div>
 {% endif %}
 
@@ -26,7 +26,7 @@ comments: true
   <time pubdate datetime="{{ page.date | date: '%Y-%m-%d' }}">
     {{ page.date | date: "%B %e, %Y" }}
   </time>
-  <div class="tags ml-sm-auto">
+  <div class="tags ms-sm-auto">
     {% for tag in page.tags %}
     <a href="/posts/tagged/{{ tag }}">#{{ tag }}</a>
     {% endfor %}
