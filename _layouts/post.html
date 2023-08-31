@@ -3,6 +3,21 @@ layout: default
 comments: true
 ---
 
+<div class="d-flex mb-3 py-1 w-100 align-items-end adjacent-pages">
+  {% if page.next %}
+  <div class="d-flex w-50 align-items-end">
+    <span class="mr-1">«</span>
+    <a href="{{ page.next.url }}">{{ page.next.title }}</a>
+  </div>
+  {% endif %}
+  {% if page.previous %}
+  <div class="d-flex ml-auto text-right w-50 justify-content-end align-items-end">
+    <a href="{{ page.previous.url }}">{{ page.previous.title }}</a>
+    <span class="ml-1">»</span>
+  </div>
+  {% endif %}
+</div>
+
 <h1>{{ page.title }}</h1>
 
 <div class="byline mb-4 d-flex flex-column flex-sm-row">

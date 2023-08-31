@@ -12,28 +12,6 @@ li {
   font-size: 1.1rem;
 }
 
-.byline {
-  color: hsla(0, 0%, 100%, 0.5);
-
-  address,
-  time {
-    display: inline;
-  }
-
-  address {
-    padding: 0;
-    margin: 0;
-  }
-
-  a {
-    color: hsla(0, 0%, 100%, 0.4);
-
-    &:hover {
-      color: hsla(0, 0%, 100%, 0.5);
-    }
-  }
-}
-
 .year-group {
   font-size: 1.5rem;
   color: hsl(162, 10%, 60%);
