@@ -3,6 +3,7 @@ layout: default
 comments: true
 ---
 
+{% if page.next or page.previous %}
 <div class="d-flex mb-3 py-1 w-100 align-items-end adjacent-pages">
   {% if page.next %}
   <div class="d-flex w-50 align-items-end">
@@ -17,6 +18,7 @@ comments: true
   </div>
   {% endif %}
 </div>
+{% endif %}
 
 <h1>{{ page.title }}</h1>
 
