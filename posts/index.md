@@ -1,6 +1,7 @@
 ---
 title: Posts
 layout: default
+no_desc: true
 ---
 
 # Posts

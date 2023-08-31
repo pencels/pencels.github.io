@@ -1,34 +1,42 @@
 <!DOCTYPE html>
 <html>
-  {% include head.html %}
-<body>
-    <div class="h-100 d-flex flex-column justify-content-between">
-      {% include header.html %}
-      <div class="container py-3 py-md-4">
-        {{ content }}
-        {% if layout.comments %}
-        <div id="disqus_thread" class="mt-1"></div>
-        <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            var disqus_config = function () {
-              this.page.url = '{{ page.url | absolute_url }}';  // Replace PAGE_URL with your page's canonical URL variable
-              this.page.identifier = '{{ page.id }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
+{% unless page.no_desc or layout.no_desc %}
+{% assign desc = page.excerpt | default: content | markdownify | strip_html | normalize_whitespace | truncatewords: 25
+%}
+{% endunless %}
 
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://pencels.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        {% endif %}
-      </div>
-      {% include footer.html %}
-      {% include foot.html %}
+{% include head.html description=desc %}
+
+<body>
+  <div class="h-100 d-flex flex-column justify-content-between">
+    {% include header.html %}
+    <div class="container py-3 py-md-4">
+      {{ content }}
+      {% if layout.comments %}
+      <div id="disqus_thread" class="mt-1"></div>
+      <script>
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        var disqus_config = function () {
+          this.page.url = '{{ page.url | absolute_url }}';  // Replace PAGE_URL with your page's canonical URL variable
+          this.page.identifier = '{{ page.id }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function () { // DON'T EDIT BELOW THIS LINE
+          var d = document, s = d.createElement('script');
+          s.src = 'https://pencels.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+          Disqus.</a></noscript>
+      {% endif %}
     </div>
+    {% include footer.html %}
+    {% include foot.html %}
+  </div>
 </body>
+
 </html>
