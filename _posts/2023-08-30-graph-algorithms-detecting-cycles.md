@@ -5,8 +5,6 @@ tags: ["graphs", "algorithms", "interview"]
 redirect_from: /posts/2022/08/30/graph-algorithms-detecting-cycles
 ---
 
-## Why I'm Writing This
-
 So after interviewing at <span class="redacted">:widepeepoMASTURBATION77769420GANGSHITNOMOREFORTNITE19DOLLERFORTNITECARD:</span>, I was asked a graph algorithm question. This is typical of software engineering companies. Unfortunately, it's been a while since I've interviewed or studied graphs, and graph algorithms are my weakness. Needless to say, I didn't do well.
 
 "What was the question?" you're probably wondering. Put simply, it was this:
