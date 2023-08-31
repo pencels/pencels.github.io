@@ -45,9 +45,9 @@ class Graph:
             visit(front)
             visited.add(node)
 
-            for node in self.adj[node]:
-                if node not in visited:
-                    queue.append(node)
+            for neighbor in self.adj[node]:
+                if neighbor not in visited:
+                    queue.append(neighbor)
 
     def has_cycle_helper(self, node, path, visited):
         path.add(node)

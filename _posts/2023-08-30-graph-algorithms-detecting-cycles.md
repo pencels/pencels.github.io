@@ -269,7 +269,7 @@ $$ O(V + E) $$
 
 **Space complexity** is a similar concept to the time complexity. It is an estimate of how much space the algorithm will use to complete its task, as a function of the input size.
 
-For both implementations, we use a stack (either the runtime stack or our own) to hold at nodes in the graph. In the worst case, we may hold _all_ nodes in the graph. So our space complexity is:
+For both implementations, we use a stack (either the runtime stack or our own) to hold nodes in the graph. In the worst case, we may hold _all_ nodes in the graph. So our space complexity is:
 
 $$ O(V) $$
 
@@ -277,7 +277,7 @@ After presenting this information, the interviewer seems satisfied, for now. Let
 
 ### Breadth-First Search (BFS)
 
-BFS is similar to DFS. It's goal is to visit every node you can reach from a given starting node. However, it's strategy is different. It prefers traversing rings of nodes that move out from the starting node. This is what makes it "breadth-first," since the traversal at any given point is broader than it is deeper into the graph.
+BFS is similar to DFS. Its goal is to visit every node you can reach from a given starting node. However, its strategy is different. It prefers traversing rings of nodes that move out from the starting node. This is what makes it "breadth-first," since the traversal at any given point is broader than it is deeper into the graph.
 
 <img src="/assets/graph-algorithms/bfs.png" alt="Visual representation of a breadth-first search on a graph." />
 
@@ -297,9 +297,9 @@ class Graph:
             visit(front)
             visited.add(node)
 
-            for node in self.adj[node]:
-                if node not in visited:
-                    queue.append(node)
+            for neighbor in self.adj[node]:
+                if neighbor not in visited:
+                    queue.append(neighbor)
 ```
 
 Notice how iterative DFS and BFS are effectively the same algorithm --- they just use a different data structure to handle the neighbors on each loop.
