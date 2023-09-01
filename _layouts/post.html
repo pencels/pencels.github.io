@@ -3,34 +3,57 @@ layout: default
 comments: true
 ---
 
-{% if page.next or page.previous %}
-<div class="d-flex mb-3 py-1 w-100 align-items-end adjacent-pages">
-  <div class="d-flex w-50 align-items-end">
-    {% if page.next %}
-    <span class="me-1">«</span>
-    <a href="{{ page.next.url }}">{{ page.next.title }}</a>
-    {% endif %}
-  </div>
-  <div class="d-flex ml-auto text-right w-50 justify-content-end align-items-end">
-    {% if page.previous %}
-    <a href="{{ page.previous.url }}">{{ page.previous.title }}</a>
-    <span class="ms-1">»</span>
+<div>
+  <div class="d-flex w-100 adjacent-pages mt-1">
+    <h1>{{ page.title }}</h1>
+    {% if page.next or page.previous %}
+    <div class="ms-auto d-flex">
+      <div class="d-flex me-3">
+        {% if page.next %}
+        <a href="{{ page.next.url }}" class="h1">
+          <span>«</span>
+        </a>
+        {% endif %}
+      </div>
+      <div class="d-flex">
+        {% if page.previous %}
+        <a href="{{ page.previous.url }}" class="h1">
+          <span>»</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
     {% endif %}
   </div>
 </div>
-{% endif %}
 
-<h1>{{ page.title }}</h1>
-
-<div class="byline mb-4 d-flex flex-column flex-sm-row">
+<div class="byline mb-2">
   <time pubdate datetime="{{ page.date | date: '%Y-%m-%d' }}">
     {{ page.date | date: "%B %e, %Y" }}
   </time>
-  <div class="tags ms-sm-auto">
-    {% for tag in page.tags %}
-    <a href="/posts/tagged/{{ tag }}">#{{ tag }}</a>
-    {% endfor %}
+  <span class="mx-1">·</span>
+  {% for tag in page.tags %}
+  <a href="/posts/tagged/{{ tag }}" class="tag">#{{ tag }}</a>
+  {% endfor %}
+</div>
+
+<!-- {% if page.next or page.previous %}
+<div class="d-flex w-100 adjacent-pages my-1">
+  <div class="d-flex w-50">
+    {% if page.next %}
+    <a href="{{ page.next.url }}">
+      <span>«</span>
+    </a>
+    {% endif %}
+  </div>
+  <div class="d-flex ml-auto text-right w-50 justify-content-end align-items-center">
+    {% if page.previous %}
+    <a href="{{ page.previous.url }}">
+      <span>»</span>
+    </a>
+    {% endif %}
   </div>
 </div>
+{% endif %} -->
 
 {% include anchor_headings.html html=content anchorBody="#" anchorClass="anchor-heading" %}

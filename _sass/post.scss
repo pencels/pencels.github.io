@@ -64,11 +64,11 @@ table.adj-list {
     margin: 0;
   }
 
-  .tags a {
-    color: hsla(0, 0%, 100%, 0.4);
+  .tag {
+    color: hsla(0, 0%, 100%, 0.5);
 
     &:hover {
-      color: hsla(0, 0%, 100%, 0.5);
+      color: hsla(0, 0%, 100%, 0.6);
     }
   }
 }
@@ -90,14 +90,12 @@ table.adj-list {
 }
 
 .adjacent-pages {
-  font-size: 1.1rem;
-  color: hsl(162, 80%, 37%);
-  
-  a {
-    color: hsl(162, 80%, 37%);
+  h1, a {
+    margin-bottom: .2rem;
+  }
 
-    &:hover {
-      color: hsl(162, 80%, 40%);
-    }
+  a {
+    color: hsl(162, 100%, 37%);
+    font-size: 2rem;
   }
 }
