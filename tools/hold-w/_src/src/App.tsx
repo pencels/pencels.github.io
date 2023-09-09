@@ -32,13 +32,14 @@ function formatDuration(milliseconds: number): string {
     }
   }
 
-  if (added > 1) {
+  if (added > 0) {
     result += " and ";
   }
 
+  const s = duration.seconds();
   const ms = duration.milliseconds();
 
-  result += `${ms.toFixed(2)} seconds`;
+  result += `${s}.${ms.toString().slice(0, 2)} seconds`;
 
   return result;
 }
@@ -51,7 +52,7 @@ function App() {
   useEffect(() => {
     if (pressed && startTime !== undefined) {
       const id = setInterval(() => {
-        setElapsed((Date.now() - startTime) / 1000);
+        setElapsed(Date.now() - startTime);
       }, 10);
       return () => {
         clearInterval(id);
