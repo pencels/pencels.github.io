@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scene {
+  perspective: 10cm;
+  width: 200px;
+  height: 200px;
+}
+
+.key {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-items: middle;
+  transform: translateZ(-100px) rotateX(20deg);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.top {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  font-size: 150px;
+}
+
+.side {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+}
+
+.plane {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  @apply bg-amber-100;
+  transform: translateZ(-30px);
+}
+
+.cube__face--front {
+  transform: rotateY(0deg) translateZ(25px);
+  @apply bg-amber-400;
+}
+.cube__face--right {
+  transform: rotateX(90deg) rotateY(90deg) translateZ(100px);
+  @apply bg-amber-500;
+}
+.cube__face--back {
+  transform: rotateY(180deg) translateZ(25px);
+}
+.cube__face--left {
+  transform: rotateX(90deg) rotateY(-90deg) translateZ(100px);
+  @apply bg-amber-500;
+}
+.cube__face--top {
+  transform: rotateX(90deg) translateZ(100px);
+  @apply bg-amber-400;
+}
+.cube__face--bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+  @apply bg-amber-600;
+}
+
+.key.pressed .cube__face--front {
+  transform: translateZ(-30px) rotateY(0deg) translateZ(25px);
+  @apply bg-amber-400;
+}
+.key.pressed .cube__face--right {
+  transform: translateZ(-30px) rotateX(90deg) rotateY(90deg) translateZ(100px);
+  @apply bg-amber-500;
+}
+.key.pressed .cube__face--back {
+  transform: translateZ(-30px) rotateY(180deg) translateZ(25px);
+}
+.key.pressed .cube__face--left {
+  transform: translateZ(-30px) rotateX(90deg) rotateY(-90deg) translateZ(100px);
+  @apply bg-amber-500;
+}
+.key.pressed .cube__face--top {
+  transform: translateZ(-30px) rotateX(90deg) translateZ(100px);
+  @apply bg-amber-400;
+}
+.key.pressed .cube__face--bottom {
+  transform: translateZ(-30px) rotateX(-90deg) translateZ(100px);
+  @apply bg-amber-600;
+}
+
+#root {
+  font-family: Rubik, sans-serif;
+  @apply h-screen;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: 0.1s;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: 7s ease-in;
+}
