@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           for dir in tools/*; do
-            if [ -d "$dir/_src "]; then
+            if [ -d "$dir/_src" ]; then
               pushd "$dir/_src"
               pnpm install
               pnpm build
