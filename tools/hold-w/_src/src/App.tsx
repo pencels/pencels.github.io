@@ -96,7 +96,7 @@ function App() {
           onTouchStart={onPress}
         >
           <div className="plane"></div>
-          <div className="top cube__face--front text-amber-100 select-none flex justify-center items-center">
+          <div className="top cube__face--front text-amber-700 select-none flex justify-center items-center">
             W
           </div>
           <div className="top select-none cube__face--back"></div>

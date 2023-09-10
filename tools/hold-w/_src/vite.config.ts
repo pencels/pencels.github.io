@@ -1,10 +1,14 @@
-import { defineConfig } from "vite";
+import { IndexHtmlTransformContext, defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { rm } from "fs/promises";
+import { promises as fs } from "fs";
+import { stringify } from "querystring";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "./",
+  server: {
+    host: true,
+  },
   build: {
     outDir: "..",
   },
@@ -12,11 +16,19 @@ export default defineConfig({
     react(),
     {
       name: "Cleaning assets folder",
+      apply: "build",
       async buildStart() {
-        return rm("../assets", {
+        return fs.rm("../assets", {
           recursive: true,
           force: true,
         });
+      },
+    },
+    {
+      name: "Add front matter to index.html",
+      apply: "build",
+      transformIndexHtml(html) {
+        return "---\n---\n\n" + html;
       },
     },
   ],
