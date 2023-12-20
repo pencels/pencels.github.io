@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="Graph Algorithms: Detecting Cycles" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="So after interviewing at :widepeepoMASTURBATION77769420GANGSHITNOMOREFORTNITE19DOLLERFORTNITECARD:, I was asked a graph algorithm question. This is typical of software engineering companies. Unfortunately, it’s been a while since..." />
+    <meta property="og:url" content="https://pencels.github.io/posts/2023/08/30/graph-algorithms-detecting-cycles" />
+    <meta property="og:image" content="https://pencels.github.io/assets/graph-algorithms/hops.png" />
+    <meta name="twitter:card" content="summary">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <title>Graph Algorithms: Detecting Cycles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        window.mermaid = mermaid;
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            fontFamily: "'Fira Code', monospace",
+            flowchart: {
+                curve: 'basis',
+            },
+        });
+        mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+<body>
+  <div class="h-100 d-flex flex-column justify-content-between">
+    <header>
+  <nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img src="/favicon.png" class="border border-light me-3"><span>Chris
+          Pence</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/resume" target="_self">Resume</a>
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="https://github.com/pencels" target="_blank">GitHub</a>
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/posts" target="_self">Posts</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+    <div class="container py-3 py-md-4">
+      <div>
+  <div class="d-flex w-100 adjacent-pages mt-1">
+    <h1>Graph Algorithms: Detecting Cycles</h1>
+    
+    <div class="ms-auto d-flex">
+      <div class="d-flex me-3">
+        
+        <a href="/posts/2023/12/20/rabbit-hole-of-typecasting" class="h1">
+          <span>«</span>
+        </a>
+        
+      </div>
+      <div class="d-flex">
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="byline mb-2">
+  <time pubdate datetime="2023-08-30">
+    August 30, 2023
+  </time>
+  <span class="mx-1">·</span>
+  
+  <a href="/posts/tagged/graphs" class="tag">#graphs</a>
+  
+  <a href="/posts/tagged/algorithms" class="tag">#algorithms</a>
+  
+  <a href="/posts/tagged/interview" class="tag">#interview</a>
+  
+</div>
+
+<!-- 
+<div class="d-flex w-100 adjacent-pages my-1">
+  <div class="d-flex w-50">
+    
+    <a href="/posts/2023/12/20/rabbit-hole-of-typecasting">
+      <span>«</span>
+    </a>
+    
+  </div>
+  <div class="d-flex ml-auto text-right w-50 justify-content-end align-items-center">
+    
+  </div>
+</div>
+ -->
+
+<p>So after interviewing at <span class="redacted"><img class="emoji" title=":widepeepoMASTURBATION77769420GANGSHITNOMOREFORTNITE19DOLLERFORTNITECARD:" alt=":widepeepoMASTURBATION77769420GANGSHITNOMOREFORTNITE19DOLLERFORTNITECARD:" src="https://cdn.7tv.app/emote/61c29fc79c2914e33e73b084/2x.webp"></span>, I was asked a graph algorithm question. This is typical of software engineering companies. Unfortunately, it’s been a while since I’ve interviewed or studied graphs, and graph algorithms are my weakness. Needless to say, I didn’t do well.</p>
+
+<p>“What was the question?” you’re probably wondering. Put simply, it was this:</p>
+
+<blockquote>
+  <p>Given a directed graph, determine whether the graph has a cycle or not.</p>
+</blockquote>
+
+<p>I’m leaving out a lot of the build-up and context associated with the question, but the context is irrelevant since I understood the core question in the moment anyway.</p>
+
+<p>Simple question, right? Well, it should be. This is a basic question you can ask about graphs, yet I still struggled with it.</p>
+
+<p>I thought I’d turn this into a learning experience and try to write a blog post about basic graph algorithms. We’ll start with coding a representation of a graph, move on to traversals, and then work toward the solution to my interview question. Obviously, I don’t claim to be some authority in perfect algorithm implementation, so take this post with a grain of salt.</p>
+
+<p>Ready? Let’s get started <img class="emoji" title=":4Evil:" alt=":4Evil:" src="https://cdn.7tv.app/emote/620c49a8238beda80c099bbc/2x.webp"></p>
+<hr>
+<h2 id="whats-a-graph-anyway">
+  
+  
+    What’s a graph, anyway? <a href="#whats-a-graph-anyway" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<pre><code class="language-mermaid">graph LR
+    a((a)) --&gt; b((b)) &amp; c((c)) --&gt; d((d))
+</code></pre>
+
+<p>At its core, a graph is a collection of <strong>nodes</strong> (also called <strong>vertices</strong>) and <strong>edges</strong>. Nodes represent entities within the graph and edges connect the nodes together.</p>
+
+<p>Edges can be <strong>directed</strong> (meaning there is a “start” and “end” node to every edge) or <strong>undirected</strong> (the nodes are simply related with no ordering given by the edge).</p>
+
+<p>Of course, graphs can be more complex than this (e.g. edges can have cost associated with them), but that extra complexity is outside the scope of this post.</p>
+
+<p>From this basic idea, graphs can be used to represent any group of objects that are related in some way. For example:</p>
+
+<ul>
+  <li>computer networks</li>
+  <li>cities and flights between them</li>
+  <li>code packages and their dependencies</li>
+  <li>family members and their relationships</li>
+</ul>
+
+<p>By transforming real world objects into graphs, we can use graph algorithms to solve problems in their respective domains — super cool! <img class="emoji" title=":ratJAM:" alt=":ratJAM:" src="https://cdn.7tv.app/emote/60b00d1f0d3a78a196f803e3/2x.webp"></p>
+<h3 id="coding-the-graph">
+  
+  
+    Coding the Graph <a href="#coding-the-graph" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>Let’s define a class for representing a (directed) graph. I’ll use Python, since it is my language of choice for interviewing. This implementation uses an <a href="https://en.wikipedia.org/wiki/Adjacency_list" target="_blank">adjacency list</a> to keep track of the nodes and edges.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">edges</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">adj</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">adj</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+            <span class="n">self</span><span class="p">.</span><span class="n">adj</span><span class="p">[</span><span class="n">start</span><span class="p">].</span><span class="nf">add</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This code can seem a bit abstract, but we’ll see how it gets used with an example graph.</p>
+<h3 id="babys-first-graph">
+  
+  
+    Baby’s First Graph <a href="#babys-first-graph" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>Now that we have the class definition, let’s create an example graph. Let’s use an example of a family tree:</p>
+
+<pre><code class="language-mermaid">graph LR
+    a([granny]) --&gt; b([mom]) --&gt; c([me])
+    d([gramps]) --&gt; b
+    e([dad]) --&gt; c
+    b &amp; e --&gt; f([sister])
+</code></pre>
+
+<p>The code below shows how you would initialize the graph with our <code class="language-plaintext highlighter-rouge">Graph</code> class.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">family</span> <span class="o">=</span> <span class="nc">Graph</span><span class="p">(</span>
+    <span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">granny</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">gramps</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">mom</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">dad</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">me</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">sister</span><span class="sh">'</span><span class="p">],</span>
+    <span class="n">edges</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">granny</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">mom</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">gramps</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">mom</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">mom</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">me</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">dad</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">me</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">mom</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">sister</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">dad</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">sister</span><span class="sh">'</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>In the code, we provide all available nodes first, then we provide all the edges as ordered pairs of nodes. Each pair <code class="language-plaintext highlighter-rouge">(start, end)</code> indicates which nodes each edge starts and ends at.</p>
+
+<p>After initialization, the internal adjacency list <code class="language-plaintext highlighter-rouge">family.adj</code> would look something like this:</p>
+
+<table class="adj-list">
+    <thead>
+        <tr>
+            <th colspan="2" style="text-align: center">
+                family.adj
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>'granny'</td>
+            <td>'mom'</td>
+        </tr>
+        <tr>
+            <td>'gramps'</td>
+            <td>'mom'</td>
+        </tr>
+        <tr>
+            <td>'mom'</td>
+            <td>'me', 'sister'</td>
+        </tr>
+        <tr>
+            <td>'dad'</td>
+            <td>'me', 'sister'</td>
+        </tr>
+        <tr>
+            <td>'me'</td>
+            <td><i>(empty)</i></td>
+        </tr>
+        <tr>
+            <td>'sister'</td>
+            <td><i>(empty)</i></td>
+        </tr>
+    </tbody>
+</table>
+
+<p>The adjacency list maps every node to a set of nodes it’s connected to. Some nodes are only related to one node (<code class="language-plaintext highlighter-rouge">granny</code>, <code class="language-plaintext highlighter-rouge">gramps</code>), some have multiple nodes in their set (<code class="language-plaintext highlighter-rouge">mom</code>, <code class="language-plaintext highlighter-rouge">dad</code>), and some have none (<code class="language-plaintext highlighter-rouge">me</code>, <code class="language-plaintext highlighter-rouge">sister</code>). Nice.</p>
+<h3 id="a-weird-graph">
+  
+  
+    A Weird Graph <a href="#a-weird-graph" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>Now, let’s see an example of a weirder graph. This one I just pulled out of thin air, so it’s just a random graph for graphs’ sake. Don’t read too much into it.</p>
+
+<pre><code class="language-mermaid">graph LR
+    a((a)) --&gt; b((b))
+    c((c)) --&gt; b
+    b --&gt; c
+    b --&gt; d((d))
+    d --&gt; c
+    f((f)) --&gt; g((g))
+    e((e))
+    a ~~~ e
+    e ~~~ g
+</code></pre>
+
+<p>This graph has some interesting things to note:</p>
+
+<ul>
+  <li>Not all the nodes are connected together.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">e</code> is totally isolated from all other nodes.</li>
+  <li>This graph has cycles. An example is the one formed by <code class="language-plaintext highlighter-rouge">b -&gt; d -&gt; c -&gt; b</code>.</li>
+</ul>
+
+<p>The code to generate this graph would look like this:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">weird_graph</span> <span class="o">=</span> <span class="nc">Graph</span><span class="p">(</span>
+    <span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">c</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">d</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">e</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">f</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">g</span><span class="sh">'</span><span class="p">],</span>
+    <span class="n">edges</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">c</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">c</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">d</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">d</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">c</span><span class="sh">'</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">f</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">g</span><span class="sh">'</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Notice that even if the layout of the graph is pretty complex or exotic, the code itself remains simple to write <img class="emoji" title=":blushh:" alt=":blushh:" src="https://cdn.7tv.app/emote/63d3ea99814f64e4b484485c/2x.webp">.</p>
+<hr>
+<h2 id="traversing-the-graph">
+  
+  
+    Traversing the Graph <a href="#traversing-the-graph" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<p>Alright, we can represent graphs, but how do we make them useful? For example, we might want to know the answers to these questions:</p>
+
+<ul>
+  <li>What is the shortest path between two computers on a network?</li>
+  <li>What installation order should we use when installing a collection of packages that may have dependencies on each other?</li>
+  <li>What plane tickets should we buy if we wanted the least amount of transfers between two cities?</li>
+</ul>
+
+<p>All of these problems require being able to <em>analyze</em> the graph somehow. This is where traversals come in.</p>
+
+<p><img src="/assets/graph-algorithms/hops.png" alt="Hopping between graph nodes"></p>
+
+<p>A <strong>graph traversal</strong> (or <strong>graph search</strong>) involves picking a starting node, then systematically following the outgoing edges to find all the nodes that are reachable from the starting node. The nodes that can be reached by crossing one edge from a given node are called its <strong>neighbors</strong>.</p>
+
+<p>* <em>How you choose to proceed at any point in the traversal, along with what information you track along the way, is what specializes and defines a lot of the more complex graph algorithms.</em></p>
+
+<p>Let’s start with the basic algorithms you learn in Algorithms 101: <strong>depth-first search</strong> (<strong>DFS</strong>) and <strong>breadth-first search</strong> (<strong>BFS</strong>). Both of these algorithms start at a given node and traverse all nodes that are reachable from that node.</p>
+<h3 id="depth-first-search-dfs">
+  
+  
+    Depth-First Search (DFS) <a href="#depth-first-search-dfs" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>The “depth-first” in this algorithm’s name refers to how it prefers going <em>deeper</em> into the graph.</p>
+
+<p><img src="/assets/graph-algorithms/dfs.png" alt="Visual representation of a depth-first search on a graph."></p>
+
+<p>More precisely, DFS will always visit the next available neighbor. This neighbor becomes the “current” node, then DFS will visit the next available neighbor of <em>this</em> node, and so on. When there are no neighbors of the current node, DFS will return to the neighbors it skipped along the way, rinse and repeat.</p>
+
+<p>This is typically written as a recursive function:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+    <span class="c1"># other methods above...
+</span>    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">visit</span><span class="p">,</span> <span class="n">visited</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">visited</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="nf">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">visited</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">adj</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                <span class="n">self</span><span class="p">.</span><span class="nf">dfs</span><span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">visit</span><span class="p">,</span> <span class="n">visited</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>What’s this <code class="language-plaintext highlighter-rouge">visited</code> thing? The <code class="language-plaintext highlighter-rouge">visited</code> set is used to keep track of nodes that have been visited, so that we don’t endlessly traverse through nodes we’ve already been to.</p>
+
+<p>Here’s where the interviewer may step in:</p>
+
+<blockquote>
+  <p>“Nice, but can you make it iterative?”</p>
+</blockquote>
+
+<p>This is a common follow-up question if you are asked to write DFS in an interview. It’s not unreasonable — the recursive implementation uses the runtime stack to keep track of neighbors, which could end up causing a <a href="https://en.wikipedia.org/wiki/Stack_overflow" target="_blank">stack overflow</a> if the graph has many nodes or edges.</p>
+
+<p>Instead, we can use our own stack data structure for an iterative solution. Rather than call DFS recursively, we push the node to our stack. Here’s how that would look:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+    <span class="c1"># other methods above...
+</span>    <span class="k">def</span> <span class="nf">dfs_iterative</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">visit</span><span class="p">,</span> <span class="n">visited</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">visited</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">]</span>
+        <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">stack</span><span class="p">.</span><span class="nf">pop</span><span class="p">()</span>
+
+            <span class="nf">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">visited</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">adj</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                    <span class="n">stack</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now we don’t run the risk of a stack overflow <img class="emoji" title=":YesYes:" alt=":YesYes:" src="https://cdn.7tv.app/emote/610fb8888ecffa09ef3eb8fc/2x.webp">.</p>
+
+<p>The interviewer seems impressed, then scribbles in his notepad. After a few seconds, he looks up and asks another follow-up.</p>
+
+<blockquote>
+  <p>“So, what is the time and space complexity of this algorithm?”</p>
+</blockquote>
+
+<p><img class="emoji" title=":smile:" alt=":smile:" src="https://cdn.7tv.app/emote/61d2a99f752f555bcde95eeb/2x.webp"> alright, let’s continue.</p>
+
+<p>The <strong>time complexity</strong> of an algorithm refers to how much work the algorithm does as a function of its input size. In our case, the input size can be expressed as two variables:</p>
+
+<ul>
+  <li>\(V\): the number of nodes<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>
+</li>
+  <li>\(E\): the number of edges</li>
+</ul>
+
+<p>We usually answer this question in <a href="https://en.wikipedia.org/wiki/Big_O_notation" target="_blank">big-O notation</a> which, put bluntly, just means “focus on the pieces of work that matter.” This lets us omit work that is insignificant in the long run and write algorithmic complexity in a much neater way.</p>
+
+<p>In our case, we end up scanning the entire graph, so we do some amount of work per node and edge. Thus, our time complexity in big-O is:</p>
+
+\[O(V + E)\]
+
+<p><strong>Space complexity</strong> is a similar concept to the time complexity. It is an estimate of how much space the algorithm will use to complete its task, as a function of the input size.</p>
+
+<p>For both implementations, we use a stack (either the runtime stack or our own) to hold nodes in the graph. In the worst case, we may hold <em>all</em> nodes in the graph. So our space complexity is:</p>
+
+\[O(V)\]
+
+<p>After presenting this information, the interviewer seems satisfied, for now. Let’s move on.</p>
+<h3 id="breadth-first-search-bfs">
+  
+  
+    Breadth-First Search (BFS) <a href="#breadth-first-search-bfs" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>BFS is similar to DFS. Its goal is to visit every node you can reach from a given starting node. However, its strategy is different. It prefers traversing rings of nodes that move out from the starting node. This is what makes it “breadth-first,” since the traversal at any given point is broader than it is deeper into the graph.</p>
+
+<p><img src="/assets/graph-algorithms/bfs.png" alt="Visual representation of a breadth-first search on a graph."></p>
+
+<p>BFS is typically written iteratively using a <a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)" target="_blank">queue</a> to keep track of the nodes to visit next:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+    <span class="c1"># other methods above...
+</span>    <span class="k">def</span> <span class="nf">bfs</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">visit</span><span class="p">,</span> <span class="n">visited</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">visited</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="n">queue</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">]</span>
+        <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+            <span class="n">front</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="nf">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="nf">visit</span><span class="p">(</span><span class="n">front</span><span class="p">)</span>
+            <span class="n">visited</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">adj</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                    <span class="n">queue</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Notice how iterative DFS and BFS are effectively the same algorithm — they just use a different data structure to handle the neighbors on each loop.</p>
+
+<p>Oh and before I forget — we traverse all nodes and edges and keep track of the nodes in a queue, so for BFS:</p>
+
+<ul>
+  <li>Time Complexity: \(O(V + E)\)</li>
+  <li>Space Complexity: \(O(V)\)</li>
+</ul>
+<hr>
+<h2 id="cycles">
+  
+  
+    Cycles <a href="#cycles" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<pre><code class="language-mermaid">graph LR
+    a((a)) --&gt; b((b)) --&gt; c((c)) --&gt; a
+</code></pre>
+
+<p>We’ve reached the final boss — at least in my case. Here’s what we need to do again:</p>
+
+<blockquote>
+  <p>Given a directed graph, determine whether the graph has a cycle or not.</p>
+</blockquote>
+
+<p>Consider a depth-first search. While we traverse the graph, we could keep track of the nodes used to reach the current node — our <strong>path</strong>.</p>
+
+<p>If we notice we run into a node we’ve already been to, then we know there must be a cycle in the graph: namely, the one formed by our traversal path.</p>
+
+<p><img src="/assets/graph-algorithms/back_edge.png" alt="A back edge"></p>
+
+<p>We can modify our DFS algorithm to keep track of the path. Let’s call it <code class="language-plaintext highlighter-rouge">has_cycle_helper</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Graph</span><span class="p">:</span>
+    <span class="c1"># other methods above...
+</span>    <span class="k">def</span> <span class="nf">has_cycle_helper</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">visited</span><span class="p">):</span>
+        <span class="n">path</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">visited</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">adj</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+
+            <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="nf">has_cycle_helper</span><span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">visited</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="n">path</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">has_cycle</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">adj</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span> <span class="ow">and</span> <span class="n">self</span><span class="p">.</span><span class="nf">has_cycle_helper</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">visited</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</code></pre></div></div>
+
+<p>In <code class="language-plaintext highlighter-rouge">has_cycle_helper</code>, we keep track of our path by adding a node to it whenever we enter another level of recursion, and removing it whenever we’re about to return from it. This will make sure our path stays up to date during our entire traversal.</p>
+
+<p>If we see a neighbor who is part of our path, that means there’s a cycle. The rest of the code is just DFS as usual.</p>
+
+<p><code class="language-plaintext highlighter-rouge">has_cycle</code> just calls the helper on all nodes in the graph. It’s possible that not all the nodes are connected, so some of the helper calls may not reach the entire graph just based on the node we start from. Calling the helper starting from every node will provide the coverage we need.</p>
+
+<p>Since this is just DFS with a bit of extra bookkeeping (i.e. the <code class="language-plaintext highlighter-rouge">path</code> set), our complexities are the same:</p>
+<ul>
+  <li>Time Complexity: \(O(V + E)\)</li>
+  <li>Space Complexity: \(O(V)\)</li>
+</ul>
+
+<p>And… that’s it. This is admittedly not a rigorous proof, but the correct algorithms I’ve seen out there are really this simple.</p>
+<h2 id="resources">
+  
+  
+    Resources <a href="#resources" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<ul>
+  <li>
+<a href="/assets/graph-algorithms/graph.py">graph.py</a> - All the code in this post.</li>
+  <li>
+<a href="https://www.cs.cornell.edu/courses/cs2112/2012sp/lectures/lec24/lec24-12sp.html" target="_blank">Graph traversals</a> - An in-depth set of notes on graph traversals using graph coloring. This post explains the algorithms in a much more formal way while categorizing edges, etc.</li>
+  <li>
+<a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank">Data Structure Visualizations</a> - A neat set of visualization demos for common data structures and algorithms, provided by the University of San Francisco.</li>
+</ul>
+<h2 id="footnotes">
+  
+  
+    Footnotes <a href="#footnotes" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Yes, we use the letter \(V\). This is because in graph theory, people say “vertices” instead of “nodes.” A lot of graph time/space complexity is written using this form. \(N\) is typically used for simpler data structures like arrays, binary trees, etc. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">↩</a></p>
+    </li>
+  </ol>
+</div>
+
+
+      <!-- 
+      <div id="disqus_thread" class="mt-1"></div>
+      <script>
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        var disqus_config = function () {
+          this.page.url = 'https://pencels.github.io/posts/2023/08/30/graph-algorithms-detecting-cycles';  // Replace PAGE_URL with your page's canonical URL variable
+          this.page.identifier = '/posts/2023/08/30/graph-algorithms-detecting-cycles'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function () { // DON'T EDIT BELOW THIS LINE
+          var d = document, s = d.createElement('script');
+          s.src = 'https://pencels.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+          Disqus.</a></noscript>
+       -->
+    </div>
+    <footer class="mt-auto pt-3">
+    <div class="container">
+        <p>©P 2023</p>
+    </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+
+  </div>
+</body>
+
+</html>

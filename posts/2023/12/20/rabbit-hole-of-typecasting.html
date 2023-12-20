@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="The Rabbit Hole of Typecasting" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="I’ve been trying to get back into old passion projects that have fallen by the wayside. One of these is Crust, my attempt at writing..." />
+    <meta property="og:url" content="https://pencels.github.io/posts/2023/12/20/rabbit-hole-of-typecasting" />
+    <meta property="og:image" content="https://pencels.github.io/favicon.png" />
+    <meta name="twitter:card" content="summary">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <title>The Rabbit Hole of Typecasting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        window.mermaid = mermaid;
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            fontFamily: "'Fira Code', monospace",
+            flowchart: {
+                curve: 'basis',
+            },
+        });
+        mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+<body>
+  <div class="h-100 d-flex flex-column justify-content-between">
+    <header>
+  <nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img src="/favicon.png" class="border border-light me-3"><span>Chris
+          Pence</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/resume" target="_self">Resume</a>
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="https://github.com/pencels" target="_blank">GitHub</a>
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/posts" target="_self">Posts</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+    <div class="container py-3 py-md-4">
+      <div>
+  <div class="d-flex w-100 adjacent-pages mt-1">
+    <h1>The Rabbit Hole of Typecasting</h1>
+    
+    <div class="ms-auto d-flex">
+      <div class="d-flex me-3">
+        
+      </div>
+      <div class="d-flex">
+        
+        <a href="/posts/2023/08/30/graph-algorithms-detecting-cycles" class="h1">
+          <span>»</span>
+        </a>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="byline mb-2">
+  <time pubdate datetime="2023-12-20">
+    December 20, 2023
+  </time>
+  <span class="mx-1">·</span>
+  
+  <a href="/posts/tagged/pl" class="tag">#pl</a>
+  
+</div>
+
+<!-- 
+<div class="d-flex w-100 adjacent-pages my-1">
+  <div class="d-flex w-50">
+    
+  </div>
+  <div class="d-flex ml-auto text-right w-50 justify-content-end align-items-center">
+    
+    <a href="/posts/2023/08/30/graph-algorithms-detecting-cycles">
+      <span>»</span>
+    </a>
+    
+  </div>
+</div>
+ -->
+
+<p>I’ve been trying to get back into old passion projects that have fallen by the wayside. One of these is <a href="https://github.com/pencels/crust">Crust</a>, my attempt at writing a simple C-like language that uses the <a href="https://llvm.org/">LLVM compiler infrastructure</a>. Since it’s been so long since I touched it, I decided to gut most of the internals and start over from scratch (I had to update to LLVM 15 anyway, so might as well).</p>
+
+<p>I was chugging along with my code, emitting <a href="https://llvm.org/docs/LangRef.html#introduction">LLVM IR</a> for strings, variables, structs, etc. Things were going great. It was all going smoothly until I got to the part where I need to emit typecasts. What seemed like a simple thing threw me down a rabbit hole which I’m still working my way out of <img class="emoji" title=":smile:" alt=":smile:" src="https://cdn.7tv.app/emote/61d2a99f752f555bcde95eeb/2x.webp">.</p>
+
+<p>In this post, I’ll try to explain my thought process for a lot of this journey, but I’ll also try to keep it educational as well. Buckle up, everyone.</p>
+<h2 id="values-and-types">
+  
+  
+    Values and Types <a href="#values-and-types" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<p>In every language, there is a notion of <strong>values</strong> and <strong>types</strong>. Values are the things you do computations with, and types help categorize those values into neat little boxes.</p>
+
+<p>For example:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">42</code> is a numerical value with type <code class="language-plaintext highlighter-rouge">int</code> (short for “integer”)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">3.14</code> is a numerical value with type <code class="language-plaintext highlighter-rouge">float</code> (short for “floating point”)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">'w'</code> is a text value with type <code class="language-plaintext highlighter-rouge">char</code> (short for “character”)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">"hello"</code> is a text value with type <code class="language-plaintext highlighter-rouge">*char</code> (multiple characters, a.k.a. “string”)</li>
+</ul>
+
+<p>Operations are well-defined between certain types. For example, we know what it means to add <code class="language-plaintext highlighter-rouge">1</code> and <code class="language-plaintext highlighter-rouge">2.5</code>, because we know how addition (<code class="language-plaintext highlighter-rouge">+</code>) works between <code class="language-plaintext highlighter-rouge">int</code> and <code class="language-plaintext highlighter-rouge">float</code>:</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span> <span class="o">+</span> <span class="mf">2.5</span> <span class="o">==</span> <span class="mf">3.5</span>
+</code></pre></div></div>
+
+<p>We also know what it means to “add” two strings together (a.k.a. <a href="https://en.wikipedia.org/wiki/Concatenation">concatenation</a>):</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"blue"</span> <span class="o">+</span> <span class="s">"berry"</span> <span class="o">==</span> <span class="s">"blueberry"</span>
+<span class="s">"12"</span> <span class="o">+</span> <span class="s">"34"</span> <span class="o">==</span> <span class="s">"1234"</span>
+</code></pre></div></div>
+
+<p>However, some types don’t “work” together, or at least it isn’t obvious how they would. For example, what does it mean to add an <code class="language-plaintext highlighter-rouge">int</code> and a string type?</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">42</span> <span class="o">+</span> <span class="s">"1"</span> <span class="o">==</span> <span class="o">?</span>
+</code></pre></div></div>
+
+<p>What happens here depends on the programming language. Here are what some languages do, along with the reasoning behind them.</p>
+
+<p><strong>Interpret the string as an <code class="language-plaintext highlighter-rouge">int</code>, then do addition.</strong> These languages say:</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">+</code> is made for numbers. This string thing <code class="language-plaintext highlighter-rouge">"1"</code> *looks like* a number, so we’ll treat it like an <code class="language-plaintext highlighter-rouge">int</code> for this operation. The answer is <code class="language-plaintext highlighter-rouge">42 + 1 == 43</code>.</p>
+</blockquote>
+
+<p><strong>Interpret the <code class="language-plaintext highlighter-rouge">int</code> as a string, then do concatenation.</strong></p>
+
+<blockquote>
+  <p>Any time we’re “adding” a string, we assume the user wants string concatenation. We’ll treat the <code class="language-plaintext highlighter-rouge">42</code> as a string for this operation. The answer is <code class="language-plaintext highlighter-rouge">"42" + "1" == "421"</code>.</p>
+</blockquote>
+
+<p><strong>Throw an error</strong>.</p>
+
+<blockquote>
+  <p>Text and numbers are different things, so it’s meaningless to “add” them. It’s better for the user to edit the code to indicate which kind of “add” they mean here.</p>
+</blockquote>
+
+<p>The first two options perform <strong>implicit</strong> type conversion. These type conversions work off assumptions and don’t involve any input from the user to occur.</p>
+
+<p>The last option requires the user to do an <strong>explicit</strong> type conversion, typically by writing an extra bit of code to handle the type mismatch. Languages take different approaches here, but we could specify the difference with something along the lines of:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">str</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="o">+</span> <span class="sh">"</span><span class="s">1</span><span class="sh">"</span> <span class="c1"># becomes "421"
+</span><span class="mi">42</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="sh">"</span><span class="s">1</span><span class="sh">"</span><span class="p">)</span> <span class="c1"># becomes 43
+</span></code></pre></div></div>
+
+<p>This form of explicit type conversion is called a <em>cast expression</em>, and it’s what this post focuses on.</p>
+<h2 id="casts">
+  
+  
+    Casts <a href="#casts" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<p>A <strong>cast</strong> is a basic operation which converts a value from its original type to a target type, typically using a special type of syntax.</p>
+
+<p>For example, we may want to convert an <code class="language-plaintext highlighter-rouge">int</code> value to the <code class="language-plaintext highlighter-rouge">float</code> type. This is a common thing to do, since <code class="language-plaintext highlighter-rouge">float</code> values work more like real numbers with a fractional part, and that behavior is helpful for a lot of real world problems. In fact, this is such a common conversion that most compilers will do it implicitly where applicable.</p>
+
+<p>In Crust, casting to the <code class="language-plaintext highlighter-rouge">float</code> type would look like this:</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">42</span> <span class="k">as</span> <span class="nb">float</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">as</code> keyword is our cast operator: we place the value we want to cast on the left, and we place the target type on the right.</p>
+
+<p>Okay, so what’s the big deal? This seems pretty straightforward. We write <code class="language-plaintext highlighter-rouge">as float</code> and now we can do our math.</p>
+
+<p>Well, remember we are the ones <em>designing</em> the language. We’re responsible for coding what happens in the <code class="language-plaintext highlighter-rouge">as</code> keyword, under the hood.</p>
+
+<p>It turns out there’s actually quite a bit to it. To understand what needs to happen, let’s take a look at what <code class="language-plaintext highlighter-rouge">int</code> and <code class="language-plaintext highlighter-rouge">float</code> even mean.</p>
+<h2 id="whatever-floats-your-boat">
+  
+  
+    Whatever floats your boat <a href="#whatever-floats-your-boat" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<p>I’ll let you in on a secret: everything on your computer is stored in binary. That means we only use a combination of bits (1s and 0s) to represent any value.</p>
+
+<p>This poses an interesting problem: how do we represent decimal numbers in binary? We can’t use the symbols 2 through 9, or a decimal point, since our computer doesn’t even know those exist.</p>
+
+<p>Our computer engineering elders had to do a lot of thinking about this. Thankfully, their work led to some of the most prevalent schemes in use today: <a href="https://en.wikipedia.org/wiki/Two%27s_complement">2’s complement</a> and <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE-754 floating point</a>.</p>
+
+<p>These schemes lay out 1s and 0s in a clever way to represent a large collection of numbers. I won’t go into the specifics of each scheme here, but the key takeaway is:</p>
+
+<ul>
+  <li>we use plain 2’s complement to store <code class="language-plaintext highlighter-rouge">int</code> values.</li>
+  <li>we use IEEE-754 floating point to store <code class="language-plaintext highlighter-rouge">float</code> values.</li>
+</ul>
+
+<p>We assign a different scheme for each type because each one is tailored to a different circuit in your computer. 2’s complement works better with your ALU (Arithmetic Logic Unit), while IEEE-754 is tailored for your FPU (Floating Point Unit).</p>
+
+<p>Using the wrong scheme can be detrimental. Trying to use 2’s complement to handle fractional values (e.g. fixed-point) can be very restrictive. Using IEEE-754 to hold integer values, though possible, can actually lead to imprecision in calculations if all you need are integer values. These are some specific cons, but the point stands: each scheme has their place.</p>
+<h3 id="so-whats-the-difference">
+  
+  
+    So what’s the difference? <a href="#so-whats-the-difference" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>Great, we have two schemes to use. So what? To make this distinction a bit more concrete, let’s work through an example.</p>
+
+<p>For simplicity, let’s assume we’re on a 16-bit system. This means we have 16 bits to work with to represent a number. We’ll represent those bits as 16 cells like so:</p>
+
+<style>
+    div.cells + table, .cells {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+        overflow-x: auto;
+        font-family: 'Fira Code', monospace;
+    }
+
+    .cells.copy {
+        font-size: .8rem;
+    }
+
+    @media (min-width: 576px) {
+        .cells.copy {
+            font-size: 1rem;
+        }
+    }
+
+    table tr {
+        border-bottom: none;
+    }
+
+    div.cells + table td, .cells td {
+        background: #0d1117;
+        padding: .2rem .2rem;
+        border: 1px solid hsl(162, 5%, 25%);
+    }
+
+    div.cells.empty + table, table.cells.empty {
+        color: transparent;
+    }
+
+    table.cells {
+        border: none;
+    }
+
+    tr.blank, tr.blank td, td.blank {
+        border: none;
+        background: transparent;
+    }
+
+    td.bad {
+        color: #a61212;
+    }
+
+    tr.update, td.update {
+        color: #f9d568;
+    }
+
+    tr.caption, tr.caption td.caption {
+        font-size: .8rem;
+        border: none;
+        background: transparent;
+    }
+</style>
+
+<div class="cells empty"></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let’s fill in the cells see what the integer <code class="language-plaintext highlighter-rouge">42</code> looks like in 2’s complement:</p>
+
+<table class="cells mb-2">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">2's complement</td>
+    </tr>
+</tbody>
+</table>
+
+<p>And here’s what the floating point <code class="language-plaintext highlighter-rouge">42.0</code> looks like in IEEE-754:</p>
+
+<table class="cells mb-2">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">IEEE-754</td>
+    </tr>
+</tbody>
+</table>
+
+<p>See how they’re not the same pattern? The bit-level representations are different, even though they represent the same number conceptually, 42!</p>
+
+<!-- <table class="cells copy">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+    </tr>
+    <tr class="blank">
+        <td colspan="4">⇣</td>
+        <td colspan="8">copy</td>
+        <td colspan="4">⇣</td>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td class="bad">1</td>
+        <td>0</td>
+        <td class="bad">1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td class="bad">1</td>
+        <td>0</td>
+        <td class="bad">1</td>
+        <td class="bad">0</td>
+        <td>0</td>
+        <td class="bad">0</td>
+        <td>0</td>
+        <td class="bad">0</td>
+        <td>0</td>
+    </tr>
+</tbody>
+</table> -->
+
+<p>The difference in bit patterns means that our cast (the <code class="language-plaintext highlighter-rouge">as</code> keyword) can’t just copy the bits directly — the patterns are fundamentally different. If we use the 2’s complement bits directly, we’d be representing the IEEE-754 floating point value <code class="language-plaintext highlighter-rouge">0.00000251</code> instead:</p>
+
+<table class="cells copy mb-2">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td class="blank"> = 42        </td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">2's complement</td>
+    </tr>
+</tbody>
+</table>
+
+<table class="cells copy mb-2">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td class="blank"> = 0.00000251</td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">IEEE-754</td>
+    </tr>
+</tbody>
+</table>
+
+<p>Imagine you’re using Crust, and want to write some floating point math, and you get some weird result:</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">42</span> <span class="k">as</span> <span class="nb">float</span><span class="p">;</span>
+<span class="nf">output</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">27.0</span><span class="p">);</span> <span class="c1">// outputs 27.00000251!</span>
+</code></pre></div></div>
+
+<p>You might think, “What happened to my 42? Where is this random .000000251 coming from?”</p>
+
+<p>This is clearly not what we’re looking for.</p>
+
+<p>So, what do we do? Well, as Crust’s language designers, we could write our own bit-fiddling function which handles this conversion properly, call it <code class="language-plaintext highlighter-rouge">i2f()</code>. We’d then insert a call to <code class="language-plaintext highlighter-rouge">i2f()</code> every time an <code class="language-plaintext highlighter-rouge">int as float</code> cast pops up in the user’s program.</p>
+
+<p>Another thing we could do is take advantage of the computer hardware. CPU architectures ship with special floating-point instructions to do this bit-level conversion quickly: <code class="language-plaintext highlighter-rouge">cvtsi2ss</code> for x86, <code class="language-plaintext highlighter-rouge">fsito</code> for ARM, <code class="language-plaintext highlighter-rouge">fitos</code> for SPARC, etc. Just insert that instruction et voilà, cast done.</p>
+
+<p>Whatever we decide, there needs to be something, not just a direct copy operation, which handles the conversion:</p>
+
+<table class="cells">
+<tbody>
+    <tr class="caption">
+        <td colspan="16" class="caption">2's complement</td>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr class="conv">
+        <td colspan="16">i2f()/cvtsi2ss/fsito/fitos</td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">IEEE-754</td>
+    </tr>
+</tbody>
+</table>
+
+<p>In my case, I’m outputting LLVM IR, so I’d want an LLVM instruction that does this. Luckily, there’s an instruction called <code class="language-plaintext highlighter-rouge">sitofp</code> which fulfills this <a href="https://llvm.org/docs/LangRef.html#sitofp-to-instruction">exact purpose!</a> Here’s how we’d use it:</p>
+
+<div class="language-llvm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">sitofp</span> <span class="kt">i32</span> <span class="m">42</span> <span class="k">to</span> <span class="kt">float</span>  <span class="c1">; 42 as float</span>
+</code></pre></div></div>
+
+<p>Phew, so we found the right way to cast integers to floats. We can use a similar instruction to handle the other direction as well (i.e. <code class="language-plaintext highlighter-rouge">fptosi</code>). Easy <img class="emoji" title=":ok:" alt=":ok:" src="https://cdn.7tv.app/emote/6268904f4f54759b7184fa72/2x.webp">.</p>
+<h2 id="what-about-other-types">
+  
+  
+    What about other types? <a href="#what-about-other-types" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<p>If the only types we needed were <code class="language-plaintext highlighter-rouge">int</code> and <code class="language-plaintext highlighter-rouge">float</code>, we’d be done here. But any programming language worth its salt has many more types: characters, strings, arrays, pointers, user-defined types, etc. How do we handle other possible casts?</p>
+<h3 id="characters">
+  
+  
+    Characters <a href="#characters" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>First, let’s look at characters (type <code class="language-plaintext highlighter-rouge">char</code>). This type represents symbols we use to write text. For example, the letters of the alphabet or punctuation.</p>
+
+<p>Characters have the same problem that integers and floats had:</p>
+
+<ul>
+  <li>How do we represent the letter <code class="language-plaintext highlighter-rouge">'A'</code> in binary?</li>
+  <li>What about the dollar sign <code class="language-plaintext highlighter-rouge">'$'</code>?</li>
+  <li>What about <code class="language-plaintext highlighter-rouge">'5'</code>? (this is the symbol <code class="language-plaintext highlighter-rouge">'5'</code>, not to be confused with the integer <code class="language-plaintext highlighter-rouge">5</code>)</li>
+</ul>
+
+<p>Similar to 2’s complement and IEEE-754 from earlier, our ancestors bestowed us with character encoding standards:</p>
+
+<ul>
+  <li>
+<a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a>: the “American Standard Code for Information Interchange,” an 8-bit scheme which was designed to represent characters used mainly in American English.</li>
+  <li>
+<a href="https://en.wikipedia.org/wiki/Unicode">Unicode</a>: a variable-length scheme which aims to support any and all writing systems. If you’ve ever used emoji before, you’ve used Unicode 😀.</li>
+</ul>
+
+<p>Since Crust is a rudimentary C clone, I won’t go through the trouble of supporting Unicode, at least not right now. I’ll make my <code class="language-plaintext highlighter-rouge">char</code> type an 8-bit type which uses the ASCII encoding:</p>
+
+<table class="cells mb-2">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td class="blank"> = 'A'</td>
+    </tr>
+</tbody>
+</table>
+
+<table class="cells mb-2">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td class="blank"> = '$'</td>
+    </tr>
+</tbody>
+</table>
+
+<table class="cells mb-2">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td class="blank"> = '5'</td>
+    </tr>
+    <tr class="caption">
+        <td colspan="8" class="caption">ASCII</td>
+    </tr>
+</tbody>
+</table>
+
+<p>You might see where this is going. What happens when we try to cast a <code class="language-plaintext highlighter-rouge">char</code> to <code class="language-plaintext highlighter-rouge">int</code>?</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sc">'A'</span> <span class="k">as</span> <span class="nb">int</span>
+</code></pre></div></div>
+
+<p>Let’s consider the bit patterns like before. A cast from <code class="language-plaintext highlighter-rouge">char</code> to <code class="language-plaintext highlighter-rouge">int</code> would mean mapping our 8-bit pattern to a 16-bit pattern.</p>
+
+<table class="cells">
+<tbody>
+    <tr class="caption">
+        <td colspan="16" class="caption">ASCII</td>
+    </tr>
+    <tr>
+        <td colspan="4" class="blank"></td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td colspan="4" class="blank"></td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr class="conv">
+        <td colspan="5" class="blank"></td>
+        <td colspan="6">?</td>
+        <td colspan="5" class="blank"></td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">2's complement</td>
+    </tr>
+</tbody>
+</table>
+
+<p>What C does<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> here is copy the 8 bits over, right-justified, and fill in the rest of the bits with 0s. We’ll try to copy this behavior in Crust. This is called a “zero-extend” operation, and LLVM supplies the <code class="language-plaintext highlighter-rouge">zext</code> instruction <a href="https://llvm.org/docs/LangRef.html#zext-to-instruction">to do this</a>.</p>
+
+<table class="cells">
+<tbody>
+    <tr class="caption">
+        <td colspan="16" class="caption">ASCII</td>
+    </tr>
+    <tr>
+        <td colspan="4" class="blank"></td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td colspan="4" class="blank"></td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr class="conv update">
+        <td colspan="5" class="blank"></td>
+        <td colspan="6">zext</td>
+        <td colspan="5" class="blank"></td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr class="update">
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">2's complement</td>
+    </tr>
+</tbody>
+</table>
+
+<p>Here’s how we would write the LLVM instruction to do this cast for Crust:</p>
+
+<div class="language-llvm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">zext</span> <span class="kt">i8</span> <span class="err">u0x41</span> <span class="k">to</span> <span class="kt">i32</span>  <span class="c1">; 'A' as int</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">i8 u0x41</code> represents the ASCII bit pattern for <code class="language-plaintext highlighter-rouge">'A'</code> we show above.</p>
+
+<p>Cool! Things are going pretty smoothly so far.</p>
+<h3 id="widening-and-narrowing">
+  
+  
+    Widening and Narrowing <a href="#widening-and-narrowing" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>What we just did with the zero-extension is <strong>widen</strong> the type. <code class="language-plaintext highlighter-rouge">char</code>’s 8 bits can only represent so many values, but <code class="language-plaintext highlighter-rouge">int</code>’s 32 bits can represent way more, including those represented by <code class="language-plaintext highlighter-rouge">char</code>.</p>
+
+<p>If we want to go the other way around (<code class="language-plaintext highlighter-rouge">int</code> to <code class="language-plaintext highlighter-rouge">char</code>), we have to <strong>narrow</strong> the type. This typically can involve a loss of information, since by <a href="https://en.wikipedia.org/wiki/Pigeonhole_principle">the pigeonhole principle</a>, we can’t fit all the bits into our target type.</p>
+
+<table class="cells">
+<tbody>
+    <tr class="caption">
+        <td colspan="16" class="caption">a lot o' bits</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr>
+        <td colspan="4" class="blank"></td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td>?</td>
+        <td colspan="4" class="blank"></td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">...not enough room</td>
+    </tr>
+</tbody>
+</table>
+
+<p>We’ll use C as an example again here. To fit the bits into our target type, we can chop off bits from the left.</p>
+
+<p>Thinking about it another way, we kind of want the opposite of zero-extension, which adds zeroes to the left-hand side. It makes sense that to go in the other direction, we’d remove bits from the left.</p>
+
+<p>This operation is called <strong>truncation</strong> or <code class="language-plaintext highlighter-rouge">trunc</code> in LLVM. To reiterate, it’s sort of the dual operation to <code class="language-plaintext highlighter-rouge">zext</code>, since it narrows a type whereas <code class="language-plaintext highlighter-rouge">zext</code> widens a type.</p>
+
+<table class="cells">
+<tbody>
+    <tr class="caption">
+        <td colspan="16" class="caption">2's complement</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr class="conv update">
+        <td colspan="5" class="blank"></td>
+        <td colspan="6">trunc</td>
+        <td colspan="5" class="blank"></td>
+    </tr>
+    <tr class="blank">
+        <td colspan="16">↓</td>
+    </tr>
+    <tr class="update">
+        <td colspan="4" class="blank"></td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td colspan="4" class="blank"></td>
+    </tr>
+    <tr class="caption">
+        <td colspan="16" class="caption">ASCII</td>
+    </tr>
+</tbody>
+</table>
+
+<p>It turns out that this bit pattern represents the ASCII encoding of an ampersand:</p>
+
+<table class="cells mb-2">
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td class="blank"> = '&amp;'</td>
+    </tr>
+    <tr class="caption">
+        <td colspan="8" class="caption">ASCII</td>
+    </tr>
+</tbody>
+</table>
+
+<p>The original bit pattern is the 2’s complement of the integer <code class="language-plaintext highlighter-rouge">-218</code>, so my LLVM would end up looking like:</p>
+
+<div class="language-llvm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">trunc</span> <span class="kt">i32</span> <span class="m">-218</span> <span class="k">to</span> <span class="kt">i8</span>  <span class="c1">; -218 as char</span>
+</code></pre></div></div>
+
+<p>Neat! <img class="emoji" title=":peepoCheer:" alt=":peepoCheer:" src="https://cdn.7tv.app/emote/634da33e7cb0ea10c19633dd/2x.webp"></p>
+<h3 id="transmuting-and-converting">
+  
+  
+    Transmuting and Converting <a href="#transmuting-and-converting" class="anchor-heading">#</a>
+  
+  
+</h3>
+    
+
+<p>Okay, so we figured out how to widen and narrow between the <code class="language-plaintext highlighter-rouge">char</code> and <code class="language-plaintext highlighter-rouge">int</code> types by using zero-extension and truncation on their bit patterns. Awesome.</p>
+
+<p>Something may not seem satisfying here though. By doing this, we have fundamentally changed the interpretation of each source value. We literally <em>just</em> changed the number -218 into the ampersand symbol (&amp;). Side by side, these have zero obvious relationship to each other. Why even do this?</p>
+
+<p>What we did here goes by a few names, but I’ll go with “transmuting”. In Rust, this word has a pretty strict definition, but I’ll use a softer version of it in this post.</p>
+
+<p>I call a cast <strong>transmuting</strong> when it reads the source value’s bit pattern as-is, but uses the target type’s interpretation of it. If the target type needs more/fewer bits, then those are implied by some bit extension/truncation as necessary. This is useful for doing low-level dark magic, sometimes for cutting corners or bootstrapping new language features. As with all forms of dark magic, misusing transmutes can lead to <a href="https://en.wikipedia.org/wiki/Undefined_behavior">Bad Things</a> happening.</p>
+
+<p>I see this as different from <strong>converting</strong>, which is a cast that seeks to retain the same <em>conceptual</em> value as the source value, where the bit pattern may change during this process. Converting looks like taking the integer <code class="language-plaintext highlighter-rouge">42</code> and converting it to floating point <code class="language-plaintext highlighter-rouge">42.0</code>. The same conceptual value, but with a different bit pattern underneath. These casts are useful in high-level programming where you abstract away all the details of the machine underneath and only focus on logic necessary for the program to work.</p>
+
+<p>Sometimes, converting <strong><em>is</em></strong> transmuting. Trivially, if you cast from a type to itself, you preserve the conceptual value <em>and</em> the bit pattern (e.g. 42 is 42 is 42).</p>
+
+<p>This distinction is important enough that languages may even have different cast operators to handle these different types of casts. C, being the wild west, lets you transmute as part of normal cast syntax. C++ tried to make this more explicit with special cast operators<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> (e.g. <a href="https://en.cppreference.com/w/cpp/language/reinterpret_cast"><code class="language-plaintext highlighter-rouge">reinterpret_cast</code></a>) and even lets you override casts with custom behavior. Rust hides transmutes behind an unsafe library function (<a href="https://doc.rust-lang.org/std/mem/fn.transmute.html"><code class="language-plaintext highlighter-rouge">mem::transmute</code></a>). The trend is that newer and higher-level languages deal mainly in conversions and rarely let you do transmutes, since transmuting is not intuitive and quite error-prone.</p>
+<h2 id="thats-it-for-now">
+  
+  
+    That’s it for now <a href="#thats-it-for-now" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<p>I was originally going to put a whole extra section on pointer/slice types and casting, but this post is already long enough. I’ll make a follow up for it later. Pointer types in Crust are another pandora’s box where things get way more involved than the primitive types we’ve been dealing with here. <img class="emoji" title=":smile:" alt=":smile:" src="https://cdn.7tv.app/emote/61d2a99f752f555bcde95eeb/2x.webp"></p>
+
+<p>Thanks for reading.</p>
+<h2 id="resources">
+  
+  
+    Resources <a href="#resources" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<ul>
+  <li>
+<a href="https://www.h-schmidt.net/FloatConverter/IEEE754.html">IEEE-754 Floating Point Converter</a> - A simple converter for floating point numbers.</li>
+  <li>
+<a href="https://steve.hollasch.net/cgindex/coding/ieeefloat.html">IEEE Standard 754 Floating Point Numbers</a> - A blog post that goes in-depth on the IEEE-754 Floating Point standard. I loved reading it.</li>
+  <li>
+<a href="https://evanw.github.io/float-toy/">Float Toy</a> - A simple site to play around with different precision floating point representations.</li>
+  <li>
+<a href="https://doc.rust-lang.org/reference/expressions/operator-expr.html#type-cast-expressions">The Rust Reference: Type cast expressions</a> - Very detailed specification of how Rust handles cast expressions.</li>
+</ul>
+<h2 id="footnotes">
+  
+  
+    Footnotes <a href="#footnotes" class="anchor-heading">#</a>
+  
+  
+</h2>
+    
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Technically it is implementation dependent: C either performs a zero extension or sign extension depending on whether the <code class="language-plaintext highlighter-rouge">char</code> type is unsigned or signed by default. In Crust, <code class="language-plaintext highlighter-rouge">char</code> is unsigned by default, so I chose to word it this way since it would make for a shorter explanation. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">↩</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>C++ is ever-changing — at the time of writing, I was only aware of <code class="language-plaintext highlighter-rouge">reinterpret_cast</code> and friends, but apparently there’s also <a href="https://en.cppreference.com/w/cpp/numeric/bit_cast"><code class="language-plaintext highlighter-rouge">std::bit_cast</code></a> and probably many more. Point is, language users/designers obviously care about the difference, and that leads to a lot of nuance on this topic :) <a href="#fnref:2" class="reversefootnote" role="doc-backlink">↩</a></p>
+    </li>
+  </ol>
+</div>
+
+
+      <!-- 
+      <div id="disqus_thread" class="mt-1"></div>
+      <script>
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        var disqus_config = function () {
+          this.page.url = 'https://pencels.github.io/posts/2023/12/20/rabbit-hole-of-typecasting';  // Replace PAGE_URL with your page's canonical URL variable
+          this.page.identifier = '/posts/2023/12/20/rabbit-hole-of-typecasting'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function () { // DON'T EDIT BELOW THIS LINE
+          var d = document, s = d.createElement('script');
+          s.src = 'https://pencels.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+          Disqus.</a></noscript>
+       -->
+    </div>
+    <footer class="mt-auto pt-3">
+    <div class="container">
+        <p>©P 2023</p>
+    </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+
+  </div>
+</body>
+
+</html>

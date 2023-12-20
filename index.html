@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="Chris Pence" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Hello there! My name is Chris. Welcome to my personal site about me. I’m your average programmer who’s super interested in programming language theory and..." />
+    <meta property="og:url" content="https://pencels.github.io/" />
+    <meta property="og:image" content="https://pencels.github.io/favicon.png" />
+    <meta name="twitter:card" content="summary">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <title>Chris Pence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        window.mermaid = mermaid;
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            fontFamily: "'Fira Code', monospace",
+            flowchart: {
+                curve: 'basis',
+            },
+        });
+        mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+<body>
+  <div class="h-100 d-flex flex-column justify-content-between">
+    <header>
+  <nav class="navbar navbar-expand-sm navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img src="/favicon.png" class="border border-light me-3"><span>Chris
+          Pence</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/resume" target="_self">Resume</a>
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="https://github.com/pencels" target="_blank">GitHub</a>
+          </li>
+          
+          <li class="nav-item">
+            
+            <a class="nav-link" href="/posts" target="_self">Posts</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+    <div class="container py-3 py-md-4">
+      <base target="_blank" />
+
+<h1 id="hello-there">Hello there!</h1>
+
+<p>My name is Chris. Welcome to my personal site about me. I’m your average programmer who’s super interested in programming language theory and compilers. I also like to game (<a href="https://en.wikipedia.org/wiki/Dead_by_Daylight">DBD</a> or <a href="https://en.wikipedia.org/wiki/Super_Smash_Bros._Ultimate">SSBU</a> anyone?) and draw on the side. I do a bit of <a href="https://www.twitch.tv/pencels">streaming</a> as well.</p>
+
+<h2 id="what-ive-done">What I’ve done</h2>
+
+<p>From 2019-2022, I worked as a software engineer at Microsoft, developing services with cool tech like <a href="https://docs.microsoft.com/en-us/azure/digital-twins/overview">Azure Digital Twins</a> and <a href="https://docs.microsoft.com/en-us/azure/azure-maps/about-azure-maps">Azure Maps</a>.</p>
+
+<p>I majored in Computer Science at UC San Diego from 2015-2019. During the academic year, I worked for the <a href="https://cse.ucsd.edu/">CSE Department</a> as a tutor. I have tutored for:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">CSE 11</code>: Intro course taught in Java with a focus on OOP</li>
+  <li><code class="language-plaintext highlighter-rouge">CSE 30</code>: Intro to low-level architecture with C and ARM assembly</li>
+  <li><code class="language-plaintext highlighter-rouge">CSE 130</code>: Intro to PL theory with some functional programming (OCaml/Prolog)</li>
+</ul>
+
+<p>During the summers (2016-2018), I worked at the <a href="https://whizkidzcc.com/">WhizKidz Computer Center</a> as an instructor in web development, game development, and introductory courses to programming languages like Python and Java.</p>
+
+<h2 id="projects">Projects</h2>
+
+<h3 id="ticonderoga-bot"><a href="https://github.com/pencels-stationery-shop/ticonderoga">ticonderoga-bot</a></h3>
+
+<p>Ticonderoga is the name I use for my personal Discord bot. When looking for a bot to moderate my own Discord server, I wasn’t satisfied with the options out there — either they were full-featured but required a premium subscription, or they lacked features I wanted. So I decided to code and host my own!</p>
+
+<h3 id="crust"><a href="https://github.com/pencels/crust">crust</a></h3>
+
+<p>Crust is a low-level programming language I used as an exercise in learning <a href="https://llvm.org/">LLVM</a>. The name is a <a href="https://en.wiktionary.org/wiki/portmanteau#Etymology_2">portmanteau</a> of the languages “C” and “Rust”, as its goal is to match the level of complexity C has with the modernity of Rust syntax.</p>
+
+<h3 id="slang"><a href="https://github.com/pencels/rslang">slang</a></h3>
+
+<p>Slang is a neat little programming language that is strongly influenced by FP-style languages, namely Lisp and Scala. It’s interpreted, <em>very</em> dynamically typed, but pretty simple overall. The core part of slang is the “matchbox”, a hybrid of a switch statement and a function. Almost everything in slang is defined with matchboxes 🙂 so watch out!</p>
+
+<h3 id="jas"><a href="https://github.com/janus-cpu/janus-jas">jas</a></h3>
+
+<p>The assembler for the Janus Instruction Set (JAS), a custom ISA for a virtual machine developed with my friend <a href="https://github.com/compiler-errors/">compiler-errors</a>.</p>
+
+      <!--  -->
+    </div>
+    <footer class="mt-auto pt-3">
+    <div class="container">
+        <p>&copy;P 2023</p>
+    </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+    crossorigin="anonymous"></script>
+
+  </div>
+</body>
+
+</html>
