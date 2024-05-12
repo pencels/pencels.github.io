@@ -11,7 +11,7 @@ ruby RUBY_VERSION
 # Happy Jekylling!
 gem "jekyll"
 gem 'rouge', git: 'https://github.com/pencels/rouge', branch: 'python-call-hl'
-gem 'html-pipeline'
+gem 'html-pipeline', '~> 2.8.0'
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
