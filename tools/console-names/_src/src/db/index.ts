@@ -17,9 +17,14 @@ initializeApp(firebaseConfig);
 
 export const db = getFirestore();
 
+function normalizeName(name: string): string {
+    // Case insensitive, single spaces for whitespace, no leading/trailing whitespace
+    return name.toLowerCase().replace(/\s{2,}/g, ' ').trim();
+}
+
 export async function addName(name: string) {
     try {
-        const id = name.toLowerCase();
+        const id = normalizeName(name);
         const docRef = doc(collection(db, "console-names"), id);
         const docSnap = await getDoc(docRef);
 
