@@ -57,7 +57,7 @@ function App() {
     setRealName(chooseOne(realNames));
   }, [realNames]);
 
-  const [mode, _, toggleMode] = useThemeMode();
+  const { mode, toggleMode } = useThemeMode();
 
   useEffect(() => {
     async function fetchNames() {
@@ -79,7 +79,7 @@ function App() {
   }, [copied]);
 
   return (
-    <div className="h-screen p-3 flex flex-col gap-3 bg-lime-100 dark:bg-lime-950 text-lime-900 dark:text-lime-100 text-xl">
+    <div className="h-screen p-3 flex flex-col gap-3 bg-lime-100 dark:bg-lime-950 text-lime-900 dark:text-lime-100 text-xl font-extralight">
       <div className="flex">
         <span className="text-3xl">Console Names</span>
         <DarkThemeToggle
@@ -114,7 +114,7 @@ function App() {
         <div className="flex gap-1">
           <div className="real-names text-xs rotate-180">Real Name!</div>
           <div
-            className="flex w-full gap-2 p-2 rounded cursor-pointer bg-yellow-300/50 dark:bg-yellow-400/30 hover:bg-yellow-300/70 dark:hover:bg-yellow-400/50 text-left items-center"
+            className="flex w-full gap-2 p-2 rounded-sm cursor-pointer bg-yellow-300/50 dark:bg-yellow-400/30 hover:bg-yellow-300/70 dark:hover:bg-yellow-400/50 text-left items-center uppercase"
             onClick={async () => {
               await navigator.clipboard.writeText(realName);
               setCopied(-1);
@@ -133,7 +133,7 @@ function App() {
               <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
             </svg>
             <span className="break-words">{realName}</span>
-            <span className="copy-text text-sm rounded p-1 bg-lime-900/20 dark:bg-lime-100/10 select-none">
+            <span className="copy-text text-sm rounded-sm p-1 bg-lime-900/20 dark:bg-lime-100/10 select-none">
               {-1 === copied ? "Copied!" : "Copy"}
             </span>
           </div>
@@ -141,7 +141,7 @@ function App() {
         {names.map((name, i) => (
           <div
             key={i}
-            className="flex gap-2 p-2 rounded cursor-pointer hover:bg-lime-500/20 dark:hover:bg-lime-100/20 text-left items-center"
+            className="flex gap-2 p-2 rounded-sm cursor-pointer hover:bg-lime-500/20 dark:hover:bg-lime-100/20 text-left items-center uppercase"
             onClick={async () => {
               await navigator.clipboard.writeText(name);
               setCopied(i);
@@ -151,7 +151,7 @@ function App() {
             }}
           >
             <span className="break-words">{name}</span>
-            <span className="copy-text text-sm rounded p-1 bg-lime-900/20 dark:bg-lime-100/10 select-none">
+            <span className="copy-text text-sm rounded-sm p-1 bg-lime-900/20 dark:bg-lime-100/10 select-none">
               {i === copied ? "Copied!" : "Copy"}
             </span>
           </div>
