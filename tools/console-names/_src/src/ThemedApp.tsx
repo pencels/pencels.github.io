@@ -5,7 +5,7 @@ import {
   names as originalNames,
   uniqueNamesGenerator,
 } from "unique-names-generator";
-import { normalizeName } from "./db";
+import { addName, normalizeName } from "./db";
 import { useState } from "react";
 import { Button } from "./components/Button";
 import { Square2StackIcon } from "@heroicons/react/24/outline";
@@ -125,7 +125,31 @@ export function ThemedApp({ mode }: { mode: string | null }) {
             <div className="text-center w-3/4 m-auto my-3">
               Could not find any names that match this one. Would you like to
               submit it as a new name?
-              <Button>Submit</Button>
+              <Button
+                onClick={async () => {
+                  await addName(inputName);
+                  setInputName("");
+                  toast(
+                    () => (
+                      <Toast
+                        theme={{
+                          root: {
+                            base: "rounded-none! dark:text-white! dark:bg-zinc-900! font-light! border-1 border-black dark:border-white",
+                          },
+                        }}
+                      >
+                        Successfully submitted "{inputName}"
+                      </Toast>
+                    ),
+                    {
+                      autoClose: 4000,
+                      toastId: inputName,
+                    }
+                  );
+                }}
+              >
+                Submit
+              </Button>
             </div>
           ) : (
             <div className="font-light dark:text-white overflow-y-auto flex flex-col shrink my-3">
