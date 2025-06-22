@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap')
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap")
 layer(base);
 
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin 'flowbite-react/plugin/tailwindcss';
 @source '../.flowbite-react/class-list.json';
 
@@ -13,9 +13,27 @@ layer(base);
 
 @theme {
   --font-*: initial;
-  --font-sans:
-    Roboto, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --animate-fade: fadeIn 0.1s;
+  --animate-fade-out: fadeOut 0.1s;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 }
 
 /*
@@ -34,6 +52,18 @@ layer(base);
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
+}
+
+:root {
+  --toastify-font-family: var(--font-sans);
+  --toastify-toast-padding: 0;
+  --toastify-toast-background: rgba(0, 0, 0, 0);
+  --toastify-color-light: rgba(0, 0, 0, 0);
+  --toastify-color-dark: rgba(0, 0, 0, 0);
+}
+
+.Toastify__toast {
+  margin-bottom: 0.25rem !important;
 }
 
 body {
