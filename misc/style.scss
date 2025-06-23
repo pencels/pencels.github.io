@@ -1,0 +1,173 @@
+@import url(https://fonts.googleapis.com/css?family=Share:700,400,400italic|Judson:400,400italic,700);
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,400italic,500italic);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700);
+
+// variables
+$bg-color: #11191C;
+$h-color: #E30A2A;
+$hbg-color: #040609;
+$p-color: #D1F2F2;
+$link-color: #809BA6;
+$hover-link-color: $p-color;
+$code-bg: #040609;
+$code-border: #809BA6;
+
+$h1-size: 0;
+$h2-size: 0;
+$h3-size: 0;
+$p-size: 18px;
+$code-size: 14px;
+
+* {
+    text-shadow: none;
+}
+
+.clear {
+    visibility:hidden;
+    height:0;
+    display:block;
+    clear:both;
+}
+
+body {
+    background: $bg-color;
+
+    * {
+        font-family: 'Raleway', serif;
+    }
+
+    color: $p-color;
+}
+
+
+#container {
+    width: 800px;
+    margin:0 auto;
+}
+
+h1, h2, h3, h4 {
+    color: $h-color;
+    background: $hbg-color;
+    padding: 2px;
+    margin:0;
+}
+
+h1 {
+    text-align: center;
+}
+
+h1, h2 {
+    border-bottom: 1px solid $h-color;
+}
+
+h2, h3, h4 {
+    display: inline-block;
+    float: left;
+    clear: both;
+
+    & + h2, & + h3, & + h4 {
+        margin-bottom:0;
+    }
+}
+
+p {
+    font-size: $p-size;
+}
+
+a, a:visited {
+    color: $link-color;
+    text-decoration: none;
+
+    &:hover {
+        color: $hover-link-color;
+
+    }
+
+    li & {
+        margin-bottom: 10px;
+
+    }
+}
+
+ol, ul {
+    margin: 5px auto;
+}
+
+li {
+    font-size: $p-size;
+}
+
+hr {
+    display: block;
+    height: 0;
+    border: 0;
+    border-top: 1px solid $h-color;
+    margin: 1em 0;
+    padding: 0;
+    background: $h-color;
+}
+
+.token {
+    font-size: $p-size;
+    font-family: 'Ubuntu Mono', monospace;
+}
+code[class*="language-"] {
+    @extend .token;
+}
+
+pre[class*="language-"] {
+    @extend .token;
+    width: 75%;
+    margin: 10px auto;
+    float:none;
+    background: $code-bg;
+    border: $h-color dashed 1px;
+}
+
+:not(pre) > code {
+    @extend .token;
+    color: $h-color;
+    background: $code-bg;
+    border-radius:3px;
+    padding: 0 4px;
+    margin:0 2px;
+}
+
+.permalink {
+    font-size: inherit;
+    display:none;
+    text-decoration: none;
+
+    *:hover > & {
+        display:inline-block;
+    }
+}
+
+// scroll back to top button
+.to-top {
+    position: fixed;
+    display:inline-block;
+    overflow: hidden;
+
+    width: 40px;
+    height: 40px;
+    bottom: 0;
+    right: 0;
+
+    font-size: 2em;
+    text-align: center;
+    text-decoration: none;
+
+    visibility: hidden;
+    background: $code-bg;
+    border: 1px solid $code-border;
+    border-radius:3px;
+
+    transition:1.5s;
+}
+
+.cd-top, .cd-is-visible {
+  /* the button becomes visible */
+  visibility: visible;
+  opacity: 1;
+}

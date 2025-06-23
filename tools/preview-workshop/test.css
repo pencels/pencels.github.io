@@ -1,0 +1,53 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+#container {
+  padding: 10px;
+  width: 100%;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#drop-zone {
+  border: 2px dashed white;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  padding-left: 25px;
+  flex: auto;
+}
+
+#preview > img {
+  margin-left: 5px;
+}
+
+#preview > img:first-child {
+  margin-left: 0;
+}
+
+html, body, pre {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: black;
+  color: white;
+}
+
+button {
+  font-family:'Courier New', Courier, monospace;
+}
+
+.hidden {
+  display: none;
+}

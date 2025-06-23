@@ -1,0 +1,187 @@
+@import url(https://fonts.googleapis.com/css?family=Hind:400,600);
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Hind', sans-serif;
+   transition: 0.3s;
+}
+*:focus {
+   outline: 0;
+}
+body {
+   background: white;
+   overflow-x:hidden;
+}
+.clear {
+   clear: both;
+}
+.header {
+   background: #2b92b9;
+   color: white;
+   padding: 20px 30px;
+   position: fixed;
+   width: 100%;
+}
+.container {
+   padding: 95px 0;
+}
+.main.wrapper {
+   text-align: center;
+}
+.step-number {
+   margin: 40px 0 10px 0;
+}
+.step-number:first-child {
+   margin: 10px 0;
+}
+.plans.wrapper {
+   width: 800px;
+   margin: 0 auto;
+}
+.plans1, .plans2 {
+   width: 400px;
+   float: left;
+}
+.plans2 {
+   margin-left: -5px;
+}
+.plan-button {
+   background: #e6f6ff;
+   border: solid #ccc 1px;
+   color: #036;
+   width: 187.5px;
+   height: 187.5px;
+   padding: 10px;
+   margin: 0 0 0 10px;
+   display: flex;
+   float: left;
+   justify-content: center;
+   border-radius: 3px;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+}
+.plan-button:hover {
+   background: #ebf8ff;
+   border: solid #bfd98f 1px;
+   cursor: pointer;
+}
+.plan-button:active {
+   background: #bfebad;
+   border: solid #bfd98f 1px;
+   cursor: pointer;
+}
+.plan-button.pressed {
+   background: #bfebad;
+   border: solid #bfd98f 1px;
+}
+.button-info {
+   align-self: center;
+}
+.button-info h3 {
+   font-size: 2em;
+   line-height: 1em;
+   word-wrap: normal;
+}
+.balance-input {
+   font-size: 2em;
+   text-align: center;
+   margin-top: -20px;
+   padding-bottom: 10px;
+   background: linear-gradient(#ccc, #ccc), linear-gradient(#ccc, #ccc), linear-gradient(#ccc, #ccc);
+   background-size: 1px 20%, 100% 1px, 1px 20%;
+   background-position: bottom left, bottom center, bottom right;
+   background-repeat: no-repeat;
+   border: none;
+}
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+}
+.budget-options {
+   width: 750px;
+   margin: 0 auto;
+   text-align: left;
+}
+.budget-results {
+   font-size: 1.5em;
+}
+.budget-advice {
+   font-size: 1.2em;
+}
+.budget-advice ul {
+   margin-left: 60px;
+}
+@media screen and (max-width:800px) {
+   .plans.wrapper {
+      width: 600px;
+   }
+   .plans1, .plans2 {
+      width: 300px;
+   }
+   .plan-button {
+      width: 137.5px;
+      height: 137.5px;
+   }
+   .button-info h3 {
+      font-size: 1.5em;
+   }
+   .budget-options {
+      width: 600px;
+   }
+   .budget-results {
+      font-size: 1.2em;
+   }
+   .budget-advice {
+      font-size: 1.1em;
+   }
+}
+@media screen and (max-width:620px), only screen and (max-device-width:620px){
+   .container {
+      padding: 80px 0;
+   }
+   .step-number {
+      font-size: 1.5em;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      width: 80%;
+   }
+   .plans.wrapper {
+      width: 100%;
+   }
+   .header h1 {
+      transition: 0s;
+      font-size: 1em;
+   }
+   .plans1, .plans2 {
+      transition: 0s;
+      margin: 0 auto;
+      float: none;
+   }
+   .plans1 > div {
+      margin-bottom: 10px;
+   }
+   .balance-input {
+      width: 200px;
+      font-size: 1.2em;
+   }
+   .plan-button {
+      margin-top: 0;
+      margin-bottom: 0;
+   }
+   .budget-options {
+      width: 450px;
+   }
+   .budget-results {
+      font-size: 1.1em;
+   }
+   .budget-advice {
+      font-size: 1em;
+   }
+}
+@media screen and (max-width:480px) {
+   .budget-options {
+      width: 80%;
+   }
+}
