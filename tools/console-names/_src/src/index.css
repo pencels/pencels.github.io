@@ -1,8 +1,70 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@10..48,400;10..48,500;10..48,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap")
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin 'flowbite-react/plugin/tailwindcss';
+@source '../.flowbite-react/class-list.json';
+
+@plugin 'flowbite/plugin';
+
+@source '../node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-*: initial;
+  --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --animate-fade: fadeIn 0.1s;
+  --animate-fade-out: fadeOut 0.1s;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+:root {
+  --toastify-font-family: var(--font-sans);
+  --toastify-toast-padding: 0;
+  --toastify-toast-background: rgba(0, 0, 0, 0);
+  --toastify-color-light: rgba(0, 0, 0, 0);
+  --toastify-color-dark: rgba(0, 0, 0, 0);
+}
+
+.Toastify__toast {
+  margin-bottom: 0.25rem !important;
+}
 
 body {
   width: 100%;
