@@ -17,6 +17,7 @@ import {
   orderBy,
   query,
   startAfter,
+  where,
 } from "firebase/firestore";
 
 function randomInt(min: number, max: number): number {
@@ -56,11 +57,14 @@ export function ThemedApp({ mode }: { mode: string | null }) {
   const [inputName, setInputName] = useState("");
 
   const { data } = useInfiniteQuery({
-    queryKey: ["console-names"],
+    queryKey: ["console-names", inputName],
     queryFn: async ({ pageParam }) => {
       const pageQuery = query(
         collection(db, "console-names"),
         orderBy("discovered"),
+        orderBy("name"),
+        where("name", ">=", inputName),
+        where("name", "<", inputName + "\xff"),
         startAfter(pageParam),
         limit(10)
       );
@@ -69,11 +73,11 @@ export function ThemedApp({ mode }: { mode: string | null }) {
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) =>
-      lastPage[lastPage.length - 1].get("discovered"),
+      lastPage[lastPage.length - 1]?.get("discovered"),
   });
-  const names = data?.pages
-    .flatMap((page) => page.flatMap((doc) => doc.get("name") as string))
-    .filter((n) => n.startsWith(inputName));
+  const names = data?.pages.flatMap((page) =>
+    page.flatMap((doc) => doc.get("name") as string)
+  );
 
   return (
     <>
@@ -144,7 +148,7 @@ export function ThemedApp({ mode }: { mode: string | null }) {
             onChange={(e) => setInputName(e.target.value)}
             placeholder="Begin typing a name..."
           />
-          {names?.length === 0 ? (
+          {!names || names.length === 0 ? (
             <div className="text-center w-3/4 m-auto my-3">
               Could not find any names that match this one. Would you like to
               submit it as a new name?
