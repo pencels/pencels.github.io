@@ -4,8 +4,9 @@ import {
   animals,
   uniqueNamesGenerator,
 } from "unique-names-generator";
-import { addName, db } from "./db";
+import { addName, db, normalizeName } from "./db";
 import { useState } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
 import { Button } from "./components/Button";
 import { Square2StackIcon } from "@heroicons/react/24/outline";
 import { cssTransition, toast, ToastContainer } from "react-toastify";
@@ -19,6 +20,8 @@ import {
   startAfter,
   where,
 } from "firebase/firestore";
+
+const PAGE_SIZE = 5;
 
 function randomInt(min: number, max: number): number {
   min = Math.ceil(min);
@@ -55,25 +58,33 @@ function generateNames(num: number, opts?: Config): string[] {
 export function ThemedApp({ mode }: { mode: string | null }) {
   const [generatedNames, setGeneratedNames] = useState<string[]>([]);
   const [inputName, setInputName] = useState("");
+  const normalizedName = useDebounce(normalizeName(inputName), 500);
 
-  const { data } = useInfiniteQuery({
-    queryKey: ["console-names", inputName],
+  const { data, hasNextPage, fetchNextPage, isFetched } = useInfiniteQuery({
+    queryKey: ["console-names", normalizedName],
     queryFn: async ({ pageParam }) => {
       const pageQuery = query(
         collection(db, "console-names"),
         orderBy("discovered"),
-        orderBy("name"),
-        where("name", ">=", inputName),
-        where("name", "<", inputName + "\xff"),
-        startAfter(pageParam),
-        limit(10)
+        orderBy("normalized"),
+        where("normalized", ">=", normalizedName),
+        where("normalized", "<", normalizedName + "\xff"),
+        startAfter(...pageParam),
+        limit(PAGE_SIZE)
       );
       const snap = await getDocs(pageQuery);
       return snap.docs;
     },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) =>
-      lastPage[lastPage.length - 1]?.get("discovered"),
+    initialPageParam: [0, ""],
+    getNextPageParam: (lastPage) => {
+      if (lastPage.length < PAGE_SIZE) {
+        return undefined;
+      }
+      const last = lastPage[lastPage.length - 1];
+      if (!last) return last;
+
+      return [last.get("discovered"), last.get("normalized")];
+    },
   });
   const names = data?.pages.flatMap((page) =>
     page.flatMap((doc) => doc.get("name") as string)
@@ -148,7 +159,7 @@ export function ThemedApp({ mode }: { mode: string | null }) {
             onChange={(e) => setInputName(e.target.value)}
             placeholder="Begin typing a name..."
           />
-          {!names || names.length === 0 ? (
+          {isFetched && (!names || names.length === 0) ? (
             <div className="text-center w-3/4 m-auto my-3">
               Could not find any names that match this one. Would you like to
               submit it as a new name?
@@ -181,10 +192,18 @@ export function ThemedApp({ mode }: { mode: string | null }) {
           ) : (
             <div className="font-light dark:text-white overflow-y-auto flex flex-col shrink my-3">
               {names?.map((name) => (
-                <div className="border-gray-200 dark:border-gray-700 border-1 px-3 py-1 mt-2 hover:border-red-600 dark:hover:border-red-600">
+                <div
+                  key={name}
+                  className="border-gray-200 dark:border-gray-700 border-1 px-3 py-1 mt-2 hover:border-red-600 dark:hover:border-red-600"
+                >
                   {name}
                 </div>
               ))}
+              {hasNextPage && (
+                <Button className="mt-2" onClick={() => fetchNextPage()}>
+                  Load More
+                </Button>
+              )}
             </div>
           )}
         </div>

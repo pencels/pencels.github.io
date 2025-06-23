@@ -36,6 +36,7 @@ export async function addName(name: string) {
         } else {
             await setDoc(docRef, {
                 name,
+                normalized: id,
                 discovered: serverTimestamp(),
             });
         }

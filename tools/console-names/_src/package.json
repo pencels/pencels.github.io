@@ -13,6 +13,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@tanstack/react-query": "^5.81.2",
+    "@uidotdev/usehooks": "^2.4.1",
     "boring-name-generator": "^1.0.3",
     "firebase": "^11.9.1",
     "flowbite": "^1.8.1",
