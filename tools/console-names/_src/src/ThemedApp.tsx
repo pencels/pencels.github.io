@@ -93,7 +93,7 @@ export function ThemedApp({ mode }: { mode: string | null }) {
   return (
     <>
       <ThemeConfig {...{ dark: mode === "dark" }} />
-      <div className="@container dark:bg-zinc-900 dark:text-white w-full px-3 py-2 font-light h-screen">
+      <div className="@container dark:bg-zinc-900 dark:text-white w-full px-3 py-2 font-light min-h-screen">
         <ToastContainer
           transition={cssTransition({
             enter: "animate-fade opacity-1",
@@ -111,6 +111,7 @@ export function ThemedApp({ mode }: { mode: string | null }) {
             Generate some fake console names, or search for / submit real-life
             console names!
           </div>
+          <h2 className="text-2xl dark:text-white my-2">Fake Name Generator</h2>
           <div className="mt-3">
             <Button onClick={() => setGeneratedNames(generateNames(5))}>
               Generate
@@ -146,7 +147,9 @@ export function ThemedApp({ mode }: { mode: string | null }) {
               ))}
             </div>
           </div>
-          <div className="text-center font-medium my-3">OR</div>
+          <h2 className="text-2xl dark:text-white mb-2 mt-6">
+            Real Console Names
+          </h2>
           <TextInput
             theme={{
               field: {
@@ -164,6 +167,7 @@ export function ThemedApp({ mode }: { mode: string | null }) {
               Could not find any names that match this one. Would you like to
               submit it as a new name?
               <Button
+                className="mt-3 mx-auto"
                 onClick={async () => {
                   await addName(inputName);
                   setInputName("");
@@ -190,7 +194,7 @@ export function ThemedApp({ mode }: { mode: string | null }) {
               </Button>
             </div>
           ) : (
-            <div className="font-light dark:text-white overflow-y-auto flex flex-col shrink my-3">
+            <div className="font-light dark:text-white flex flex-col my-3">
               {names?.map((name) => (
                 <button
                   key={name}
