@@ -192,12 +192,32 @@ export function ThemedApp({ mode }: { mode: string | null }) {
           ) : (
             <div className="font-light dark:text-white overflow-y-auto flex flex-col shrink my-3">
               {names?.map((name) => (
-                <div
+                <button
                   key={name}
-                  className="border-gray-200 dark:border-gray-700 border-1 px-3 py-1 mt-2 hover:border-red-600 dark:hover:border-red-600"
+                  className="border-gray-200 dark:border-gray-700 border-1 px-3 py-1 mt-2 hover:border-red-600 dark:hover:border-red-600 flex justify-between items-center cursor-pointer"
+                  onClick={async () => {
+                    await navigator.clipboard.writeText(name);
+                    toast(
+                      () => (
+                        <Toast
+                          theme={{
+                            root: {
+                              base: "rounded-none! dark:text-white! dark:bg-zinc-900! font-light! border-1 border-black dark:border-white",
+                            },
+                          }}
+                        >
+                          Copied to clipboard!
+                        </Toast>
+                      ),
+                      {
+                        toastId: name,
+                      }
+                    );
+                  }}
                 >
                   {name}
-                </div>
+                  <Square2StackIcon height={16} className="cursor-pointer" />
+                </button>
               ))}
               {hasNextPage && (
                 <Button className="mt-2" onClick={() => fetchNextPage()}>
