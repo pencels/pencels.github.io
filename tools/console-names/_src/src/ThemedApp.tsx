@@ -2,19 +2,22 @@ import { ThemeConfig, TextInput, Toast } from "flowbite-react";
 import {
   adjectives,
   animals,
-  names as originalNames,
   uniqueNamesGenerator,
 } from "unique-names-generator";
-import { addName, normalizeName } from "./db";
+import { addName, db } from "./db";
 import { useState } from "react";
 import { Button } from "./components/Button";
 import { Square2StackIcon } from "@heroicons/react/24/outline";
 import { cssTransition, toast, ToastContainer } from "react-toastify";
-
-const names = originalNames.map((name) => ({
-  id: normalizeName(name),
-  name: name,
-}));
+import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter,
+} from "firebase/firestore";
 
 function randomInt(min: number, max: number): number {
   min = Math.ceil(min);
@@ -51,7 +54,27 @@ function generateNames(num: number, opts?: Config): string[] {
 export function ThemedApp({ mode }: { mode: string | null }) {
   const [generatedNames, setGeneratedNames] = useState<string[]>([]);
   const [inputName, setInputName] = useState("");
-  const matchingNames = names.filter((name) => name.id.startsWith(inputName));
+
+  const { data } = useInfiniteQuery({
+    queryKey: ["console-names"],
+    queryFn: async ({ pageParam }) => {
+      const pageQuery = query(
+        collection(db, "console-names"),
+        orderBy("discovered"),
+        startAfter(pageParam),
+        limit(10)
+      );
+      const snap = await getDocs(pageQuery);
+      return snap.docs;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) =>
+      lastPage[lastPage.length - 1].get("discovered"),
+  });
+  const names = data?.pages
+    .flatMap((page) => page.flatMap((doc) => doc.get("name") as string))
+    .filter((n) => n.startsWith(inputName));
+
   return (
     <>
       <ThemeConfig {...{ dark: mode === "dark" }} />
@@ -121,7 +144,7 @@ export function ThemedApp({ mode }: { mode: string | null }) {
             onChange={(e) => setInputName(e.target.value)}
             placeholder="Begin typing a name..."
           />
-          {!inputName ? null : matchingNames.length === 0 ? (
+          {names?.length === 0 ? (
             <div className="text-center w-3/4 m-auto my-3">
               Could not find any names that match this one. Would you like to
               submit it as a new name?
@@ -153,13 +176,11 @@ export function ThemedApp({ mode }: { mode: string | null }) {
             </div>
           ) : (
             <div className="font-light dark:text-white overflow-y-auto flex flex-col shrink my-3">
-              {names
-                .filter((name) => name.id.startsWith(inputName))
-                .map((name) => (
-                  <div className="border-gray-200 dark:border-gray-700 border-1 px-3 py-1 mt-2 hover:border-red-600 dark:hover:border-red-600">
-                    {name.name}
-                  </div>
-                ))}
+              {names?.map((name) => (
+                <div className="border-gray-200 dark:border-gray-700 border-1 px-3 py-1 mt-2 hover:border-red-600 dark:hover:border-red-600">
+                  {name}
+                </div>
+              ))}
             </div>
           )}
         </div>

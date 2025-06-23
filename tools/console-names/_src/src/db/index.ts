@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { collection, doc, getDoc, getFirestore, increment, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, Query, query, serverTimestamp, setDoc, startAfter, updateDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -43,4 +43,14 @@ export async function addName(name: string) {
     } catch (e) {
         console.error("Error adding document: ", e);
     }
+}
+
+export async function getNames(): Promise<[string[], Query]> {
+    const first = query(collection(db, "console-names"), orderBy("discovered"), limit(25))
+    const snap = await getDocs(first);
+    const last = snap.docs[snap.docs.length - 1];
+
+    const names = snap.docs.map(doc => doc.get("name") as string);
+    const next = query(collection(db, "console-names"), orderBy("discovered"), startAfter(last), limit(25));
+    return [names, next];
 }
